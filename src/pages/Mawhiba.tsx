@@ -17,7 +17,7 @@ export default function Mawhiba() {
     <>
       <PageHeader
         title="موهبة والإبداع"
-        intro="تعرّفوا على برامج موهبة ومسابقاتها، وكيف تبدأ الطالبة مشروعها البحثي."
+        intro="تعرّف على برامج موهبة ومسابقاتها، وكيف تبدأ الطالبة مشروعها البحثي."
         icon={<Lightbulb className="h-6 w-6" />}
       />
 

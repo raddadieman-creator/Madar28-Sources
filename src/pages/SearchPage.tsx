@@ -101,7 +101,7 @@ export default function SearchPage() {
         <EmptyState title={`لم نجد نتائج عن «${q}»`}>
           <p>كلمة أقصر أو مرادف آخر قد يفيد، ورُشد جاهز للمساعدة.</p>
           <button type="button" className="btn-soft mt-4" onClick={() => open(q)}>
-            اسألوا رُشد
+            اسأل رُشد
           </button>
         </EmptyState>
       )}

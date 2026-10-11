@@ -76,7 +76,7 @@ export default function GuidanceTopic() {
 
         <div className="mt-8 flex flex-col gap-3 rounded-2xl bg-lav-50 p-5 sm:flex-row sm:items-center">
           <UserRound className="h-6 w-6 shrink-0 text-lav-600" aria-hidden="true" />
-          <p className="flex-1 text-sm text-ink-700">تحتاجون مساعدة في موقف محدد؟ الموجهة الطلابية تتعامل مع ما تشاركونه بسرية.</p>
+          <p className="flex-1 text-sm text-ink-700">هل تحتاج إلى مساعدة في موقف محدد؟ الموجهة الطلابية تتعامل مع ما تشاركه بسرية.</p>
           <Link to="/contact#counselor" className="btn-primary">
             التواصل مع الموجهة
           </Link>

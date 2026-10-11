@@ -142,7 +142,7 @@ export default function Library() {
           </ul>
         </div>
       ) : (
-        <EmptyState title={`لا يوجد دليل يطابق «${q}»`}>جرّبوا كلمة أخرى، أو اسألوا رُشد.</EmptyState>
+        <EmptyState title={`لا يوجد دليل يطابق «${q}»`}>جرّب كلمة أخرى، أو اسأل رُشد.</EmptyState>
       )}
 
       <p className="mt-6 text-xs leading-6 text-ink-500">

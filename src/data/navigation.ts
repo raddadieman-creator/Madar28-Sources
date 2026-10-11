@@ -21,7 +21,7 @@ export const mainNav: NavItem[] = [
   { label: 'الفعاليات والتقويم', path: '/events', icon: 'calendar', hint: 'هجري وميلادي', secondary: true },
   { label: 'موهبة والإبداع', path: '/mawhiba', icon: 'lightbulb', hint: 'برامج ومسابقات', secondary: true },
   { label: 'العمل التطوعي', path: '/volunteer', icon: 'handshake', hint: 'مبادرات وفرص', secondary: true },
-  { label: 'صوتك مسموع', path: '/voice', icon: 'message', hint: 'شاركونا أفكاركم', secondary: true },
+  { label: 'صوتك مسموع', path: '/voice', icon: 'message', hint: 'شاركنا أفكارك', secondary: true },
   { label: 'عن المدرسة', path: '/about', icon: 'school', hint: 'الرؤية والرسالة والهيكل', secondary: true },
 ]
 

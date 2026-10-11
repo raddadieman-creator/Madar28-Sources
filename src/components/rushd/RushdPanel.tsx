@@ -21,7 +21,7 @@ interface Message {
 }
 
 const WELCOME =
-  'أهلًا بكم، أنا رُشد. اسألوني عن خدمات المدرسة وأدلتها ومواعيدها، وسأدلّكم على الإجابة أو المسؤولة المناسبة.'
+  'أهلًا بك، أنا رُشد. اسألني عن خدمات المدرسة وأدلتها ومواعيدها، وسأدلّك على الإجابة أو المسؤولة المختصة.'
 
 /** النص الذي يُقرأ صوتيًا لكل رد */
 function replyText(r: RushdReply): string {
@@ -29,15 +29,15 @@ function replyText(r: RushdReply): string {
     case 'answer':
       return r.faq.answer
     case 'search':
-      return 'لم أجد إجابة مباشرة، لكن هذه الصفحات قد تفيدكم.'
+      return 'لم أجد إجابة مباشرة، لكن هذه الصفحات قد تفيدك.'
     case 'none':
-      return 'لا تتوفر لديّ إجابة معتمدة عن هذا السؤال. يمكنكم التواصل مع المدرسة مباشرة.'
+      return 'لا تتوفر لديّ إجابة معتمدة عن هذا السؤال. يمكنك التواصل مع المدرسة مباشرة.'
     case 'sensitive':
-      return 'لحماية خصوصيتكم لم أعالج هذه الرسالة لأنها تحتوي بيانات شخصية.'
+      return 'حفاظًا على خصوصيتك لم أعالج هذه الرسالة؛ لأنها تتضمن بيانات شخصية.'
     case 'greeting':
-      return 'وعليكم السلام ومرحبًا بكم. بماذا أساعدكم؟'
+      return 'وعليكم السلام ورحمة الله، مرحبًا بك. كيف أساعدك؟'
     case 'thanks':
-      return 'العفو، سعدت بخدمتكم.'
+      return 'العفو، يسعدني أن أكون في خدمتك.'
   }
 }
 
@@ -197,9 +197,9 @@ export function RushdPanel() {
               <div className="rushd-float">
                 <RushdBot size={92} body />
               </div>
-              <p className="mt-3 text-base font-semibold text-ink-900">أهلًا بكم، أنا رُشد</p>
+              <p className="mt-3 text-base font-semibold text-ink-900">أهلًا بك، أنا رُشد</p>
               <p className="mt-1 max-w-xs text-sm leading-7 text-ink-600">
-                أجيبكم عن خدمات المدرسة وأدلتها ومواعيدها، وأدلّكم على المسؤولة المناسبة.
+                أجيبك عن خدمات المدرسة وأدلتها ومواعيدها، وأدلّك على المسؤولة المختصة.
               </p>
             </div>
           ) : m.from === 'user' ? (
@@ -220,7 +220,7 @@ export function RushdPanel() {
                     className="mt-2 inline-flex items-center gap-1 text-xs text-lav-700 hover:text-lav-800"
                   >
                     {speakingId === m.id ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
-                    {speakingId === m.id ? 'إيقاف القراءة' : 'استمع للإجابة'}
+                    {speakingId === m.id ? 'إيقاف القراءة' : 'الاستماع إلى الإجابة'}
                   </button>
                 )}
               </div>
@@ -291,7 +291,7 @@ export function RushdPanel() {
         </div>
         <p className="mt-2 flex items-center gap-1.5 text-[11px] text-ink-500">
           <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-sage-600" aria-hidden="true" />
-          لا تكتبوا رقم الهوية أو الجوال أو بيانات الطالبة. المحادثة لا تُحفظ ولا تُرسل.
+          لا تكتب رقم الهوية أو الجوال أو بيانات الطالبة؛ فالمحادثة لا تُحفظ ولا تُرسل.
         </p>
       </form>
     </div>
@@ -369,7 +369,7 @@ function ReplyBody({ m, onAsk, onNavigate }: { m: Message; onAsk: (q: string) =>
   if (r.kind === 'search') {
     return (
       <div className="space-y-2">
-        <p>لم أجد إجابة مباشرة في الأسئلة المعتمدة، لكن هذه الصفحات قد تفيدكم:</p>
+        <p>لم أجد إجابة مباشرة في الأسئلة المعتمدة، لكن هذه الصفحات قد تفيدك:</p>
         <ul className="space-y-1.5">
           {r.results.map((s) => (
             <li key={s.id}>
@@ -387,11 +387,11 @@ function ReplyBody({ m, onAsk, onNavigate }: { m: Message; onAsk: (q: string) =>
   if (r.kind === 'none') {
     return (
       <div className="space-y-2">
-        <p>لا تتوفر لديّ إجابة معتمدة عن هذا السؤال، ولا أريد أن أخمّن.</p>
+        <p>لا تتوفر لديّ إجابة معتمدة عن هذا السؤال، ولا أجيب دون مصدر موثّق.</p>
         <p>
-          يمكن تجربة صياغة أخرى، أو{' '}
+          جرّب صياغة أخرى، أو{' '}
           <Link to="/contact" onClick={onNavigate} className="font-medium text-lav-700 underline underline-offset-4">
-            التواصل مع المدرسة
+            تواصل مع المدرسة
           </Link>{' '}
           مباشرة.
         </p>
@@ -402,9 +402,9 @@ function ReplyBody({ m, onAsk, onNavigate }: { m: Message; onAsk: (q: string) =>
   if (r.kind === 'sensitive') {
     return (
       <div className="space-y-2">
-        <p className="font-medium text-ink-900">لم أعالج رسالتكم لحماية خصوصيتكم.</p>
+        <p className="font-medium text-ink-900">لم أعالج رسالتك حفاظًا على خصوصيتك.</p>
         <p>
-          تبدو الرسالة متضمنة {r.found.map((k) => sensitiveLabel[k]).join(' و')}. لا أحتاج أي بيانات شخصية للإجابة؛ أعيدوا كتابة السؤال
+          تبدو الرسالة متضمنة {r.found.map((k) => sensitiveLabel[k]).join(' و')}. لا أحتاج إلى أي بيانات شخصية للإجابة؛ أعد كتابة السؤال
           دونها.
         </p>
       </div>

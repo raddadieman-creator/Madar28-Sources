@@ -94,7 +94,7 @@ export default function EventDetail() {
           {state !== 'past' && (
             <button type="button" onClick={() => downloadICS(ev, school.fullName)} className="btn-primary">
               <CalendarPlus className="h-4 w-4" aria-hidden="true" />
-              أضيفوها إلى تقويمكم
+              إضافة إلى التقويم
             </button>
           )}
           {state !== 'past' && <p className="text-xs text-ink-400">يُنزَّل ملف تقويم (ics) يفتح في تقويم الجوال أو Google أو Outlook.</p>}

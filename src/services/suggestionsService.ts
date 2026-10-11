@@ -37,6 +37,6 @@ export async function submitSuggestion(input: SuggestionInput): Promise<SubmitRe
     const data = (await res.json()) as { trackingCode: string }
     return { ok: true, trackingCode: data.trackingCode }
   } catch {
-    return { ok: false, reason: 'error', message: 'تعذّر إرسال الاقتراح الآن. حاولوا مرة أخرى لاحقًا.' }
+    return { ok: false, reason: 'error', message: 'تعذّر إرسال الاقتراح الآن. حاول مرة أخرى لاحقًا.' }
   }
 }

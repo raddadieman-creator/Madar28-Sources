@@ -9,8 +9,8 @@ import { submitSuggestion, type SubmitResult, type SuggestionCategory, type Sugg
 
 const CATS: { id: SuggestionCategory; icon: typeof Lightbulb; hint: string }[] = [
   { id: 'فكرة', icon: Lightbulb, hint: 'اقتراح لتطوير خدمة أو نشاط' },
-  { id: 'ملاحظة', icon: NotebookPen, hint: 'شيء لاحظتموه ويحتاج اهتمامًا' },
-  { id: 'مبادرة', icon: Rocket, hint: 'مبادرة تودون المشاركة فيها' },
+  { id: 'ملاحظة', icon: NotebookPen, hint: 'أمر لاحظته ويحتاج إلى اهتمام' },
+  { id: 'مبادرة', icon: Rocket, hint: 'مبادرة تود المشاركة فيها' },
 ]
 
 const TITLE_MAX = 80
@@ -57,7 +57,7 @@ export default function Voice() {
     <>
       <PageHeader
         title="صوتك مسموع"
-        intro="أفكاركم وملاحظاتكم تساعدنا على التطوير. شاركونا بما ترونه مفيدًا للطالبات والمدرسة."
+        intro="أفكارك وملاحظاتك تعيننا على التطوير، فشاركنا ما تراه مفيدًا للطالبات والمدرسة."
         icon={<MessageCircleHeart className="h-6 w-6" />}
       />
 
@@ -66,7 +66,7 @@ export default function Voice() {
           {!SUGGESTIONS_ENABLED && (
             <div className="mb-6">
               <Notice>
-                هذا نموذج أولي: يمكنكم تجربته، لكن الإرسال الفعلي سيُفعَّل بعد ربط المنصة بقاعدة بيانات آمنة. لن يُحفظ ما تكتبونه الآن.
+                هذا نموذج أولي يمكنك تجربته، أما الإرسال الفعلي فيُفعَّل بعد ربط المنصة بقاعدة بيانات آمنة، ولن يُحفظ ما تكتبه الآن.
               </Notice>
             </div>
           )}
@@ -130,7 +130,7 @@ export default function Voice() {
               onChange={(e) => setForm({ ...form, details: e.target.value })}
               aria-invalid={Boolean(errors.details)}
               aria-describedby={`details-count${errors.details ? ' details-err' : ''}`}
-              placeholder="ما الاقتراح؟ ولماذا ترونه مفيدًا؟"
+              placeholder="ما الاقتراح؟ ولماذا تراه مفيدًا؟"
             />
             <div className="mt-1.5 flex justify-between text-xs">
               <span>{errors.details && <span id="details-err" className="text-sm text-red-700">{errors.details}</span>}</span>
@@ -142,7 +142,7 @@ export default function Voice() {
 
           <div className="mt-5">
             <label htmlFor="sender" className="mb-1.5 block font-medium text-ink-900">
-              صفتكم <span className="text-sm font-normal text-ink-400">(اختياري)</span>
+              صفتك <span className="text-sm font-normal text-ink-400">(اختياري)</span>
             </label>
             <select
               id="sender"
@@ -181,7 +181,7 @@ export default function Voice() {
             >
               {result.ok ? (
                 <>
-                  <p className="font-semibold text-sage-700">وصل اقتراحكم.</p>
+                  <p className="font-semibold text-sage-700">وصل اقتراحك.</p>
                   <p className="mt-1 text-sm text-ink-700">
                     رقم المتابعة: <span className="font-mono font-semibold" dir="ltr">{result.trackingCode}</span>
                   </p>
@@ -191,7 +191,7 @@ export default function Voice() {
                   <p className="font-semibold text-ink-900">{result.message}</p>
                   {result.reason === 'not-enabled' && (
                     <>
-                      <p className="mt-1 text-sm text-ink-600">إن أردتم الاحتفاظ بنص اقتراحكم، انسخوه وأرسلوه عبر قنوات المدرسة المعتادة.</p>
+                      <p className="mt-1 text-sm text-ink-600">إن أردت الاحتفاظ بنص اقتراحك فانسخه وأرسله عبر قنوات المدرسة المعتادة.</p>
                       <button type="button" onClick={copyText} className="btn-soft mt-3">
                         <Copy className="h-4 w-4" aria-hidden="true" />
                         {copied ? 'نُسخ النص' : 'نسخ نص الاقتراح'}
@@ -206,21 +206,21 @@ export default function Voice() {
 
         <aside className="space-y-4">
           <section className="rounded-3xl bg-sage-50 p-6 ring-1 ring-sage-100">
-            <h2 className="text-base font-semibold">لماذا نسمعكم؟</h2>
+            <h2 className="text-base font-semibold">لماذا نسمعك؟</h2>
             <p className="mt-2 text-sm leading-7 text-ink-700">
-              الأسرة شريك أساسي في نجاح الطالبة. مقترحاتكم تصل إلى الإدارة، وتُدرس وتُصنَّف، ويُعلن عمّا يُنفَّذ منها.
+              الأسرة شريك أساسي في نجاح الطالبة. ومقترحاتك تصل إلى الإدارة، وتُدرس وتُصنَّف، ويُعلن عمّا يُنفَّذ منها.
             </p>
           </section>
           <section className="rounded-3xl bg-white p-6 ring-1 ring-lav-100">
             <h2 className="text-base font-semibold">بعد تفعيل الإرسال</h2>
             <ul className="prose-ar text-sm text-ink-600">
-              <li>تحصلون على رقم متابعة لكل اقتراح.</li>
+              <li>تحصل على رقم متابعة لكل اقتراح.</li>
               <li>تطّلع عليه المسؤولات المخولات فقط.</li>
-              <li>تتابعون حالته برقم المتابعة دون تسجيل دخول.</li>
+              <li>تتابع حالته برقم المتابعة دون تسجيل دخول.</li>
             </ul>
           </section>
           <p className="px-2 text-xs text-ink-500">
-            للشكاوى العاجلة أو المواقف التي تخص طالبة بعينها، تواصلوا مباشرة عبر{' '}
+            للشكاوى العاجلة أو المواقف التي تخص طالبة بعينها، تواصل مباشرة عبر{' '}
             <Link to="/contact" className="text-lav-700 underline underline-offset-4">دليل التواصل</Link>.
           </p>
         </aside>

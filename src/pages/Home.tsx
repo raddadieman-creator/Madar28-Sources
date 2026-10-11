@@ -98,7 +98,7 @@ export default function Home() {
               </time>
             </p>
             <h1 id="hero-title" className="mt-4 text-[2.1rem] lg:mt-0 font-extrabold leading-tight text-white md:text-[3.25rem] md:leading-[1.2]">
-              أهلًا بكم في مدار 28
+              مرحبًا بك في مدار 28
             </h1>
             <p className="mt-4 max-w-xl text-[15px] leading-8 text-white/85 md:text-[17px]">{school?.welcome}</p>
             <div className="mt-7 max-w-2xl">
@@ -211,10 +211,10 @@ export default function Home() {
         <div className="grid items-center gap-2 md:grid-cols-[minmax(0,1fr)_17rem] lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div className="order-2 p-6 pt-0 md:order-1 md:p-10">
             <h2 id="rushd-title-home" className="text-2xl font-semibold md:text-[1.75rem]">
-              رُشد، مساعدكم في مدار 28
+              رُشد، مساعدك في مدار 28
             </h2>
             <p className="mt-2 max-w-xl text-[15px] leading-8 text-ink-600">
-              اسألوه بالكتابة أو بالصوت، وباللهجة المعتادة، عن الغياب ودرجات السلوك والنقل ومنصة مدرستي؛ يجيب من الأدلة المعتمدة مع ذكر المصدر، ويفتح الدليل عند الصفحة.
+              اسأله كتابةً أو صوتًا عن الغياب ودرجات السلوك والنقل ومنصة مدرستي؛ فيجيبك من الأدلة المعتمدة مع ذكر المصدر، ويفتح لك الدليل عند الصفحة المعنية.
             </p>
             <ul className="mt-5 grid gap-2 text-sm text-ink-700 sm:grid-cols-3">
               {[
@@ -229,14 +229,14 @@ export default function Home() {
               ))}
             </ul>
             <div className="mt-5 flex flex-wrap gap-2">
-              {['بنتي تأخرت الصبح وش يصير؟', 'كيف تعوّض درجات السلوك؟', 'نسيت كلمة مرور مدرستي'].map((q) => (
+              {['ماذا يترتب على التأخر الصباحي؟', 'كيف تُعوَّض درجات السلوك؟', 'نسيت كلمة مرور منصة مدرستي'].map((q) => (
                 <button key={q} type="button" className="chip bg-white/80" onClick={() => open(q)}>
                   {q}
                 </button>
               ))}
             </div>
             <button type="button" onClick={() => open()} className="btn-primary mt-6 px-6 py-3 text-base">
-              تحدّثوا مع رُشد
+              تحدّث مع رُشد
             </button>
           </div>
 
@@ -251,7 +251,7 @@ export default function Home() {
             </svg>
             <div className="relative">
               <p className="bubble-in absolute -top-6 end-[72%] whitespace-nowrap rounded-2xl rounded-ee-sm bg-white px-3.5 py-2 text-sm font-medium text-ink-800 shadow-soft ring-1 ring-lav-100">
-                أهلًا! اسألوني
+                أهلًا بك! اسألني
               </p>
               <div className="rushd-float">
                 <RushdBot size={150} body />

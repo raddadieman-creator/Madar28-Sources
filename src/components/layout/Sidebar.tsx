@@ -55,7 +55,7 @@ export function Sidebar() {
         >
           <RushdAvatar size={40} />
           <span>
-            <span className="block text-sm font-semibold text-ink-900">اسألوا رُشد</span>
+            <span className="block text-sm font-semibold text-ink-900">اسأل رُشد</span>
             <span className="block text-xs text-ink-500">إجابات فورية من دليل المدرسة</span>
           </span>
         </button>

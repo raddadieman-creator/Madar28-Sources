@@ -22,7 +22,7 @@ const KINDS: { id: Kind; label: string; hint: string; defaultTo: string; allowed
   { id: 'complaint', label: 'شكوى', hint: 'تُوجَّه أولًا للمسؤولة المختصة، ثم للمديرة إن لم تُحل', defaultTo: 'principal' },
   { id: 'suggestion', label: 'اقتراح', hint: 'فكرة لتطوير المدرسة', defaultTo: 'principal' },
   { id: 'appointment', label: 'طلب موعد', hint: 'مع المديرة أو الوكيلة أو الموجهة', defaultTo: 'vice', allowed: ['principal', 'vice', 'counselor'] },
-  { id: 'callback', label: 'طلب التواصل', hint: 'أن تتواصل المسؤولة معكم', defaultTo: 'vice' },
+  { id: 'callback', label: 'طلب التواصل', hint: 'أن تتواصل المسؤولة معك', defaultTo: 'vice' },
 ]
 
 const GRADES = ['', 'الأول المتوسط', 'الثاني المتوسط', 'الثالث المتوسط']
