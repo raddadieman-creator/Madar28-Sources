@@ -1,0 +1,8 @@
+{
+  "_تعليمات": "انسخي هذا الملف باسم contact-phones.json في المجلد نفسه وأدخلي الأرقام. لا يظهر الرقم في الموقع المنشور إلا إذا كان approved و consent كلاهما true.",
+  "approved": false,
+  "phones": {
+    "principal": { "phone": "05XXXXXXXX", "consent": false, "whatsapp": true },
+    "noor": { "phone": "05XXXXXXXX", "consent": false, "whatsapp": true }
+  }
+}

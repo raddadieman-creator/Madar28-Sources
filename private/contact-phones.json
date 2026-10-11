@@ -1,0 +1,36 @@
+{
+  "_تعليمات": "approved = اعتماد إدارة المدرسة لنشر الأرقام. consent = موافقة صاحبة الرقم. لا يظهر الرقم في الموقع إلا إذا كان الاثنان true. whatsapp: false يخفي زر واتساب. اعتُمد النشر بمراجعة مديرة المدرسة وموافقة جميع المسؤولات (أكتوبر 2026).",
+  "approved": true,
+  "phones": {
+    "principal": {
+      "phone": "0597465591",
+      "consent": true,
+      "whatsapp": true
+    },
+    "vice": {
+      "phone": "0568124913",
+      "consent": true,
+      "whatsapp": true
+    },
+    "counselor": {
+      "phone": "0537079902",
+      "consent": true,
+      "whatsapp": true
+    },
+    "attendance": {
+      "phone": "0541793458",
+      "consent": true,
+      "whatsapp": true
+    },
+    "transport": {
+      "phone": "0550346877",
+      "consent": true,
+      "whatsapp": true
+    },
+    "madrasati": {
+      "phone": "0550540778",
+      "consent": true,
+      "whatsapp": true
+    }
+  }
+}
