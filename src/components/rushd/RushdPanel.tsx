@@ -1,5 +1,6 @@
 import { ExternalLink, Mic, MicOff, Send, ShieldCheck, Volume2, VolumeX, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { SourceLink, sourcePath } from '../SourceLink'
 import { Link } from 'react-router-dom'
 import { suggestedQuestions } from '../../data/faq'
 import { useContent } from '../../hooks/useContent'
@@ -339,7 +340,16 @@ function ReplyBody({ m, onAsk, onNavigate }: { m: Message; onAsk: (q: string) =>
             </Link>
           </p>
         )}
-        <p className="text-[11px] text-ink-400">المصدر: الأسئلة الشائعة المعتمدة في المنصة</p>
+        {r.faq.source ? (
+          <div className="flex flex-col gap-1.5 rounded-xl bg-sage-50 px-3 py-2 ring-1 ring-sage-100">
+            <SourceLink source={r.faq.source} onNavigate={onNavigate} />
+            <Link to={sourcePath(r.faq.source)} onClick={onNavigate} className="inline-flex w-fit items-center gap-1 rounded-lg bg-white px-2.5 py-1 text-xs font-semibold text-sage-700 ring-1 ring-sage-200 hover:bg-sage-100">
+              فتح الدليل{r.faq.source.page ? ` عند ص ${r.faq.source.page}` : ''}
+            </Link>
+          </div>
+        ) : (
+          <p className="text-[11px] text-ink-400">المصدر: الأسئلة الشائعة المعتمدة في المنصة</p>
+        )}
         {r.related.length > 0 && (
           <div className="border-t border-lav-100 pt-2">
             <p className="mb-1.5 text-xs text-ink-500">أسئلة قريبة:</p>

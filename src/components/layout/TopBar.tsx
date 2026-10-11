@@ -32,7 +32,7 @@ export function TopBar({ onMenu, onSearch }: { onMenu: () => void; onSearch: () 
         </p>
         <Link to="/contact" className="btn-soft whitespace-nowrap">
           <Phone className="h-4 w-4" aria-hidden="true" />
-          تواصل معنا
+          مركز التواصل
         </Link>
       </div>
     </header>

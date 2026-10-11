@@ -1,12 +1,12 @@
-import { BookCheck, ChevronLeft, ExternalLink, MessageCircleHeart, Phone, ShieldCheck, Volume2 } from 'lucide-react'
+import { BookCheck, ChevronLeft, Compass, ExternalLink, Library, Phone, ShieldCheck, Volume2 } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AnnouncementItem } from '../components/AnnouncementItem'
 import { EventRow } from '../components/EventRow'
 import { RushdBot } from '../components/rushd/RushdBot'
 import { useRushd } from '../components/rushd/RushdContext'
 import { SearchBox } from '../components/SearchBox'
-import { Icon } from '../components/ui/Icon'
-import { DraftBadge, EmptyState, SectionTitle, Skeleton } from '../components/ui/primitives'
+import { EmptyState, SectionTitle, Skeleton } from '../components/ui/primitives'
+import { officialLinks, telegramGroup } from '../data/links'
 import { ValueCard } from '../components/ValueCard'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
@@ -14,25 +14,66 @@ import { formatGregorian, formatHijri, startOfToday } from '../lib/dates'
 import { activeAnnouncements, content, upcomingEvents, valueOfTheWeek } from '../services/contentService'
 import schoolLogo from '../assets/logo.webp'
 
-const SEARCH_HINTS = ['النقل المدرسي', 'الغياب بعذر', 'منصة مدرستي', 'موهبة', 'الاختبارات']
+const SEARCH_HINTS = ['قواعد السلوك', 'الغياب', 'درجات السلوك', 'التنمر', 'منصة مدرستي']
+
+type PanelLink = { label: string; to?: string; href?: string }
+const PANELS: { title: string; hint: string; to: string; cta: string; icon: typeof Library; tone: string; links: PanelLink[] }[] = [
+  {
+    title: 'الأدلة والأنظمة',
+    hint: 'تُقرأ داخل المنصة',
+    to: '/library',
+    cta: 'كل الأدلة',
+    icon: Library,
+    tone: 'bg-lav-100 text-lav-700',
+    links: [
+      { label: 'قواعد السلوك والمواظبة 1447هـ', to: '/library/behavior-1447' },
+      { label: 'السلوك المتميز', to: '/guidance/excellent-behavior' },
+      { label: 'معًا ضد التنمر', to: '/guidance/bullying' },
+      { label: 'افهمي ابنتك', to: '/guidance/growth' },
+    ],
+  },
+  {
+    title: 'دليلك المدرسي',
+    hint: 'الإجراءات خطوة بخطوة',
+    to: '/procedures',
+    cta: 'كل الإجراءات',
+    icon: Compass,
+    tone: 'bg-sage-100 text-sage-700',
+    links: [
+      { label: 'التأخر الصباحي', to: '/procedures#late' },
+      { label: 'الغياب', to: '/procedures#absence' },
+      { label: 'تعويض درجات السلوك', to: '/procedures#behavior-points' },
+      { label: 'الإبلاغ عن تنمر', to: '/procedures#bullying-report' },
+    ],
+  },
+  {
+    title: 'مركز التواصل',
+    hint: 'المسؤولة المختصة مباشرة',
+    to: '/contact',
+    cta: 'دليل المسؤولات',
+    icon: Phone,
+    tone: 'bg-lav-100 text-lav-700',
+    links: [
+      { label: 'إرسال استفسار', to: '/contact?kind=inquiry' },
+      { label: 'طلب موعد', to: '/contact?kind=appointment' },
+      { label: 'ملاحظة أو اقتراح', to: '/contact?kind=suggestion' },
+      { label: telegramGroup.action + ': التوجيه الطلابي', href: telegramGroup.url },
+    ],
+  },
+]
 
 export default function Home() {
   useTitle()
   const { open } = useRushd()
   const { data: school } = useContent(content.school)
-  const { data: services } = useContent(content.services)
   const { data: anns } = useContent(content.announcements)
   const { data: events } = useContent(content.events)
   const { data: values } = useContent(content.values)
-  const { data: msg } = useContent(content.parentMessage)
-  const { data: contacts } = useContent(content.contacts)
 
   const today = startOfToday()
-  const quick = services?.filter((s) => s.quick) ?? []
   const announcements = anns ? activeAnnouncements(anns).slice(0, 4) : []
   const upcoming = events ? upcomingEvents(events, 4) : []
   const value = values ? valueOfTheWeek(values) : undefined
-  const shortcuts = contacts?.filter((c) => ['counselor', 'attendance', 'madrasati', 'transport'].includes(c.id)) ?? []
 
   return (
     <div className="space-y-14 md:space-y-16">
@@ -103,41 +144,63 @@ export default function Home() {
         </div>
       </section>
 
-      {/* الوصول السريع */}
-      <section aria-labelledby="quick-title">
-        <SectionTitle id="quick-title" title="الخدمات الأكثر استخدامًا" />
-        <ul className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4">
-          {quick.map((s, i) => {
-            const tone = i % 2 === 0 ? 'bg-lav-100 text-lav-700 group-hover:bg-lav-600' : 'bg-sage-100 text-sage-700 group-hover:bg-sage-500'
-            const inner = (
-              <>
-                <span className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-colors group-hover:text-white ${tone}`}>
-                  <Icon name={s.icon} className="h-6 w-6" />
-                </span>
-                <span className="mt-4 flex items-center gap-1 text-base font-extrabold text-ink-900">
-                  {s.title}
-                  {s.url && <ExternalLink className="h-3.5 w-3.5 text-ink-400" aria-label="رابط خارجي" />}
-                </span>
-                <span className="mt-1 line-clamp-2 text-xs leading-5 text-ink-500">{s.summary}</span>
-              </>
-            )
-            const cls =
-              'group flex h-full flex-col rounded-3xl bg-white p-4 shadow-soft ring-1 ring-lav-100 transition-all hover:-translate-y-0.5 hover:shadow-lift md:p-5'
-            return (
-              <li key={s.id}>
-                {s.url ? (
-                  <a href={s.url} target="_blank" rel="noopener noreferrer" className={cls}>
-                    {inner}
-                  </a>
-                ) : (
-                  <Link to={s.to ?? '/services'} className={cls}>
-                    {inner}
+      {/* اللوحات الثلاث: أدلة، إجراءات، تواصل */}
+      <section aria-label="أقسام المنصة" className="grid gap-4 md:grid-cols-3">
+        {PANELS.map((p) => (
+          <article key={p.title} className="flex flex-col rounded-[1.75rem] bg-white p-5 shadow-soft ring-1 ring-lav-100 md:p-6">
+            <div className="flex items-center gap-3">
+              <span className={`flex h-12 w-12 items-center justify-center rounded-2xl ${p.tone}`}>
+                <p.icon className="h-6 w-6" aria-hidden="true" />
+              </span>
+              <div>
+                <h2 className="text-lg font-extrabold">
+                  <Link to={p.to} className="hover:text-lav-800">
+                    {p.title}
                   </Link>
-                )}
-              </li>
-            )
-          })}
-        </ul>
+                </h2>
+                <p className="text-xs text-ink-500">{p.hint}</p>
+              </div>
+            </div>
+            <ul className="mt-4 flex-1 divide-y divide-lav-50">
+              {p.links.map((l) => (
+                <li key={l.label}>
+                  {l.href ? (
+                    <a href={l.href} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 py-2.5 text-[15px] text-ink-800 hover:text-lav-800">
+                      <span className="flex-1">{l.label}</span>
+                      <ExternalLink className="h-4 w-4 text-ink-300" aria-hidden="true" />
+                    </a>
+                  ) : (
+                    <Link to={l.to!} className="flex items-center gap-2 py-2.5 text-[15px] text-ink-800 hover:text-lav-800">
+                      <span className="flex-1">{l.label}</span>
+                      <ChevronLeft className="h-4 w-4 text-ink-300" aria-hidden="true" />
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <Link to={p.to} className="btn-soft mt-4 w-full">
+              {p.cta}
+            </Link>
+          </article>
+        ))}
+      </section>
+
+      {/* المنصات الرسمية */}
+      <section aria-label="المنصات الرسمية" className="-mt-6 flex flex-wrap items-center gap-2 md:-mt-8">
+        <span className="text-sm text-ink-500">منصات رسمية:</span>
+        {Object.values(officialLinks).map((l) => (
+          <a
+            key={l.url}
+            href={l.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            title={l.note}
+            className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-ink-800 ring-1 ring-lav-100 hover:ring-lav-300"
+          >
+            {l.label}
+            <ExternalLink className="h-3.5 w-3.5 text-ink-300" aria-hidden="true" />
+          </a>
+        ))}
       </section>
 
       {/* رُشد */}
@@ -151,12 +214,12 @@ export default function Home() {
               رُشد، مساعدكم في مدار 28
             </h2>
             <p className="mt-2 max-w-xl text-[15px] leading-8 text-ink-600">
-              اسألوه بالكتابة أو بالصوت عن الغياب والنقل ومنصة مدرستي والاختبارات، فيجيبكم من أدلة المدرسة المعتمدة ويدلّكم على المسؤولة المختصة.
+              اسألوه بالكتابة أو بالصوت، وباللهجة المعتادة، عن الغياب ودرجات السلوك والنقل ومنصة مدرستي؛ يجيب من الأدلة المعتمدة مع ذكر المصدر، ويفتح الدليل عند الصفحة.
             </p>
             <ul className="mt-5 grid gap-2 text-sm text-ink-700 sm:grid-cols-3">
               {[
                 { icon: ShieldCheck, t: 'لا يطلب بيانات شخصية' },
-                { icon: BookCheck, t: 'يجيب من المحتوى المعتمد' },
+                { icon: BookCheck, t: 'يذكر المصدر والصفحة' },
                 { icon: Volume2, t: 'يقرأ الإجابة بصوت عربي' },
               ].map((f) => (
                 <li key={f.t} className="flex items-center gap-2 rounded-xl bg-white/70 px-3 py-2 ring-1 ring-white">
@@ -166,7 +229,7 @@ export default function Home() {
               ))}
             </ul>
             <div className="mt-5 flex flex-wrap gap-2">
-              {['كيف أستأذن لابنتي؟', 'متى الاختبارات؟', 'نسيت كلمة مرور مدرستي'].map((q) => (
+              {['بنتي تأخرت الصبح وش يصير؟', 'كيف تعوّض درجات السلوك؟', 'نسيت كلمة مرور مدرستي'].map((q) => (
                 <button key={q} type="button" className="chip bg-white/80" onClick={() => open(q)}>
                   {q}
                 </button>
@@ -238,53 +301,7 @@ export default function Home() {
         </section>
       </div>
 
-      {/* القيمة، والرسالة التربوية، والتواصل */}
-      <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-[0.9fr_1.1fr_1fr]">
-        {value && <ValueCard value={value} />}
-
-        {msg && (
-          <section aria-labelledby="msg-title" className="flex flex-col rounded-3xl bg-sage-50 p-6 ring-1 ring-sage-100">
-            <div className="flex items-center gap-2">
-              <MessageCircleHeart className="h-5 w-5 text-sage-600" aria-hidden="true" />
-              <h2 id="msg-title" className="text-lg font-semibold">
-                {msg.title}
-              </h2>
-              <DraftBadge status={msg.status} />
-            </div>
-            <p className="mt-4 text-[17px] leading-9 text-ink-800">{msg.body}</p>
-            <Link to="/guidance/family" className="mt-auto inline-flex items-center gap-1 pt-6 text-sm font-medium text-sage-700 hover:text-sage-600">
-              المزيد في الإرشاد الأسري
-              <ChevronLeft className="h-4 w-4" aria-hidden="true" />
-            </Link>
-          </section>
-        )}
-
-        <section aria-labelledby="contact-title" className="rounded-3xl bg-white p-6 ring-1 ring-lav-100 md:col-span-2 xl:col-span-1">
-          <h2 id="contact-title" className="text-lg font-semibold">
-            لمن أتوجه؟
-          </h2>
-          <ul className="mt-4 divide-y divide-lav-50">
-            {shortcuts.map((c) => (
-              <li key={c.id}>
-                <Link to={`/contact#${c.id}`} className="flex items-center gap-3 py-3 hover:text-lav-800">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-lav-50 text-lav-700">
-                    <Icon name={c.icon} className="h-[18px] w-[18px]" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-medium">{c.role}</span>
-                    <span className="block truncate text-xs text-ink-500">{c.name ?? c.topics.slice(0, 3).join('، ')}</span>
-                  </span>
-                  <ChevronLeft className="h-4 w-4 text-ink-300" aria-hidden="true" />
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Link to="/contact" className="btn-soft mt-4 w-full">
-            <Phone className="h-4 w-4" aria-hidden="true" />
-            دليل التواصل كاملًا
-          </Link>
-        </section>
-      </div>
+      {value && <ValueCard value={value} />}
 
     </div>
   )

@@ -17,7 +17,7 @@ export function Footer() {
         <ul className="flex flex-wrap gap-x-5 gap-y-2">
           <li><Link to="/about" className="hover:text-lav-700">عن المدرسة</Link></li>
           <li><Link to="/voice" className="hover:text-lav-700">صوتك مسموع</Link></li>
-          <li><Link to="/contact" className="hover:text-lav-700">تواصل معنا</Link></li>
+          <li><Link to="/contact" className="hover:text-lav-700">مركز التواصل</Link></li>
           <li><Link to="/privacy" className="hover:text-lav-700">الخصوصية</Link></li>
         </ul>
       </div>

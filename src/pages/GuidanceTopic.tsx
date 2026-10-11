@@ -1,7 +1,9 @@
-import { ChevronLeft, UserRound } from 'lucide-react'
+import { BookOpenText, ChevronLeft, UserRound } from 'lucide-react'
 import { Link, useParams } from 'react-router-dom'
 import { Icon } from '../components/ui/Icon'
-import { EmptyState, ExternalButton, PdfSlot, Skeleton } from '../components/ui/primitives'
+import { SourceLink } from '../components/SourceLink'
+import { EmptyState, ExternalButton, Skeleton } from '../components/ui/primitives'
+import { findDoc } from '../data/library'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { content } from '../services/contentService'
@@ -21,6 +23,7 @@ export default function GuidanceTopic() {
     )
 
   const others = topics.filter((t) => t.id !== topic.id)
+  const doc = topic.docId ? findDoc(topic.docId) : undefined
 
   return (
     <div className="grid gap-10 lg:grid-cols-[1fr_17rem]">
@@ -49,15 +52,21 @@ export default function GuidanceTopic() {
                   <li key={p}>{p}</li>
                 ))}
               </ul>
+              {s.source && <SourceLink source={s.source} className="mt-3" />}
             </section>
           ))}
         </div>
 
-        {(topic.pdf || topic.links?.length) && (
+        {(doc || topic.links?.length) && (
           <section className="mt-8">
             <h2 className="mb-3 text-base font-semibold">مصادر وروابط</h2>
             <div className="flex flex-wrap gap-2">
-              {topic.pdf && <PdfSlot label={topic.pdf.label} url={topic.pdf.url} />}
+              {doc && (
+                <Link to={`/library/${doc.id}`} className="btn-primary">
+                  <BookOpenText className="h-4 w-4" aria-hidden="true" />
+                  قراءة الدليل: {doc.title} {doc.year.split('–')[0].trim()}
+                </Link>
+              )}
               {topic.links?.map((l) => (
                 <ExternalButton key={l.url} link={l} />
               ))}

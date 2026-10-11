@@ -1,7 +1,9 @@
-import { Check, Copy, Globe, Lock, Mail, MessageCircle, Phone, Search, UsersRound, X } from 'lucide-react'
+import { Check, Copy, ExternalLink, Lock, MessageCircle, Phone, Search, Send, UsersRound, X } from 'lucide-react'
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ContactCard } from '../components/ContactCard'
+import { ContactComposer } from '../components/ContactComposer'
+import { officialLinks, telegramGroup } from '../data/links'
 import { Notice, PageHeader, Skeleton } from '../components/ui/primitives'
 import { NUMBERS_APPROVED } from '../data/contact-phones'
 import { useContent } from '../hooks/useContent'
@@ -26,9 +28,8 @@ function matches(c: ContactT, q: string): boolean {
 }
 
 export default function Contact() {
-  useTitle('تواصل معنا')
+  useTitle('مركز التواصل')
   const { data: contacts } = useContent(content.contacts)
-  const { data: ch } = useContent(content.channels)
   const [params, setParams] = useSearchParams()
   const [q, setQ] = useState(params.get('q') ?? '')
   const [copied, setCopied] = useState(false)
@@ -46,15 +47,19 @@ export default function Contact() {
     setParams(p, { replace: true })
   }
 
-  const channels = [
-    { icon: Phone, label: 'الهاتف الرسمي', value: ch?.mainPhone, href: ch?.mainPhone ? `tel:${ch.mainPhone}` : undefined },
-    { icon: Mail, label: 'البريد الإلكتروني', value: ch?.email, href: ch?.email ? `mailto:${ch.email}` : undefined },
-    { icon: Globe, label: 'موقع المدرسة', value: ch?.website, href: ch?.website },
-  ]
-
   return (
     <>
-      <PageHeader title="تواصل معنا" intro="لكل موضوع مسؤولة مختصة، والبحث بالاسم أو بالموضوع يوصل إليها مباشرة." icon={<Phone className="h-6 w-6" />} />
+      <PageHeader title="مركز التواصل" intro="طلب أو استفسار أو موعد يصل إلى المسؤولة المختصة مباشرة." icon={<Phone className="h-6 w-6" />} />
+
+      {contacts && (
+        <div className="mb-10">
+          <ContactComposer contacts={contacts} initialTo={params.get('to') ?? undefined} initialTopic={params.get('topic') ?? undefined} initialKind={params.get('kind') ?? undefined} />
+        </div>
+      )}
+
+      <h2 id="directory" className="mb-4 scroll-mt-24 text-lg font-extrabold">
+        دليل المسؤولات
+      </h2>
 
       {/* البحث داخل الدليل */}
       <section aria-label="البحث في دليل التواصل" className="mb-8">
@@ -166,25 +171,31 @@ export default function Contact() {
       )}
 
       <section aria-labelledby="channels" className="mt-12">
-        <h2 id="channels" className="mb-4 text-lg font-semibold">
-          قنوات المدرسة الرسمية
+        <h2 id="channels" className="mb-4 text-lg font-extrabold">
+          القنوات والمنصات الرسمية
         </h2>
-        <ul className="grid gap-3 sm:grid-cols-3">
-          {channels.map((c) => (
-            <li key={c.label} className="flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-lav-100">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-sage-50 text-sage-600">
-                <c.icon className="h-5 w-5" aria-hidden="true" />
-              </span>
-              <span className="min-w-0">
-                <span className="block text-xs text-ink-500">{c.label}</span>
-                {c.value && c.href ? (
-                  <a href={c.href} className="block truncate font-medium text-lav-700 hover:underline" dir="ltr">
-                    {c.value}
-                  </a>
-                ) : (
-                  <span className="block text-sm text-ink-400">يُضاف بعد الاعتماد</span>
-                )}
-              </span>
+        <div className="flex flex-col gap-4 rounded-3xl bg-gradient-to-l from-lav-100 to-sage-50 p-5 ring-1 ring-lav-100 md:flex-row md:items-center">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-[#229ED9] text-white">
+            <Send className="h-5 w-5" aria-hidden="true" />
+          </span>
+          <p className="min-w-0 flex-1">
+            <span className="block font-bold text-ink-900">{telegramGroup.name}</span>
+            <span className="block text-sm text-ink-600">على تيليجرام: تنبيهات وبرامج التوجيه الطلابي.</span>
+          </p>
+          <a href={telegramGroup.url} target="_blank" rel="noopener noreferrer" className="btn-primary px-5 py-2.5">
+            {telegramGroup.action}
+          </a>
+        </div>
+        <ul className="mt-3 grid gap-3 sm:grid-cols-3">
+          {Object.values(officialLinks).map((l) => (
+            <li key={l.url}>
+              <a href={l.url} target="_blank" rel="noopener noreferrer" className="flex h-full items-start gap-3 rounded-2xl bg-white p-4 ring-1 ring-lav-100 transition-colors hover:ring-lav-300">
+                <span className="min-w-0 flex-1">
+                  <span className="block font-bold text-ink-900">{l.label}</span>
+                  <span className="mt-0.5 block text-xs leading-5 text-ink-500">{l.note}</span>
+                </span>
+                <ExternalLink className="mt-1 h-4 w-4 shrink-0 text-ink-300" aria-hidden="true" />
+              </a>
             </li>
           ))}
         </ul>

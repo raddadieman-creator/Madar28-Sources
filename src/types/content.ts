@@ -51,8 +51,78 @@ export interface SchoolValue {
   id: string
   name: string
   meaning: string
+  /** سلوك الطالبة في المدرسة */
   practices: string[]
   icon: IconName
+  /** آية قرآنية موثّقة بالسورة ورقم الآية (لا تُضاف أحاديث أو أقوال غير موثقة) */
+  quote?: { text: string; ref: string }
+  /** تحدي الأسبوع */
+  challenge: string
+  /** رسالة قصيرة للأسرة */
+  family: string
+  /** نشاط مدرسي مقترح — يُنفَّذ بعد اعتماد المدرسة */
+  activity: string
+  /** إن كانت القيمة من القيم الست المعتمدة لتقييم السلوك المتميز */
+  officialSource?: SourceRef
+}
+
+/* ——— مكتبة الأدلة والأنظمة ——— */
+
+/** إحالة إلى موضع في وثيقة رسمية من مكتبة الأدلة */
+export interface SourceRef {
+  /** معرّف الوثيقة في library.ts */
+  docId: string
+  /** المادة أو القسم كما ورد في الوثيقة */
+  section?: string
+  /** رقم الصفحة المطبوع (تقريبي عند تشوه النص المستخرج) */
+  page?: number
+}
+
+export type GuideTopic = 'السلوك والمواظبة' | 'التوجيه الطلابي' | 'الأسرة والنمو' | 'التنمر والعنف'
+
+export interface GuideDoc {
+  id: string
+  title: string
+  issuer: string
+  /** سنة الإصدار كما على الغلاف */
+  year: string
+  edition?: string
+  topics: GuideTopic[]
+  summary: string
+  /** الرابط الرسمي للملف (تم التحقق منه) */
+  officialUrl?: string
+  /** ملف مرفوع إلى المستودع بجانب index.html (مثل guides/behavior-1447.pdf) */
+  localFile?: string
+  /** صفحة الإصدار الرسمية إن وجدت */
+  landingUrl?: string
+  /** تاريخ آخر تحقق من الرابط */
+  verifiedOn: string
+  /** الفهرس الداخلي: المواد والصفحات */
+  toc: { title: string; page?: number }[]
+  /** نقاط موثقة من الوثيقة نفسها مع الصفحة */
+  highlights?: { text: string; page?: number; section?: string }[]
+  /** ملاحظة أمانة علمية تظهر للقارئ */
+  note?: string
+  tags: string[]
+}
+
+/** إجراء في «دليلك المدرسي» */
+export interface Procedure {
+  id: string
+  title: string
+  icon: IconName
+  /** متى يُستخدم */
+  when: string
+  steps: { text: string; basis: 'rule' | 'school' }[]
+  requirements?: string[]
+  /** المسؤولة (معرّفها في contacts.ts) */
+  contactId?: string
+  /** مرجع رسمي؛ يغيب إن كان الإجراء تنظيمًا مدرسيًا */
+  source?: SourceRef
+  /** إجراء مدرسي مقترح يحتاج اعتماد الإدارة */
+  proposed?: boolean
+  link?: ExternalLink
+  tags: string[]
 }
 
 export interface Service {
@@ -86,8 +156,10 @@ export interface GuidanceTopic {
   summary: string
   icon: IconName
   /** فقرات وقوائم المحتوى */
-  sections: { heading: string; points: string[] }[]
+  sections: { heading: string; points: string[]; source?: SourceRef }[]
   links?: ExternalLink[]
+  /** الوثيقة الرسمية المرتبطة في المكتبة */
+  docId?: string
   /** دليل PDF — يضاف رابطه عند توفره */
   pdf?: { label: string; url?: string }
   tags: string[]
@@ -203,6 +275,8 @@ export interface FaqItem {
   to?: { label: string; path: string }
   /** معرّف المسؤولة المختصة في دليل التواصل عند الحاجة لمتابعة بشرية */
   contactId?: string
+  /** مرجع الإجابة في مكتبة الأدلة */
+  source?: SourceRef
   category: string
 }
 
@@ -215,4 +289,9 @@ export interface SearchItem {
   external?: string
   keywords: string
   icon: IconName
+  /** نوع النتيجة لتصفية البحث */
+  type?: 'دليل' | 'إجراء' | 'سؤال' | 'خدمة' | 'تواصل' | 'فعالية' | 'موضوع'
+  /** سنة الإصدار والجهة (للأدلة) */
+  year?: string
+  issuer?: string
 }

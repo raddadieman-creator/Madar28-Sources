@@ -3,6 +3,8 @@ import { availablePhones } from '../data/contact-phones'
 import { contacts, schoolChannels } from '../data/contacts'
 import { events } from '../data/events'
 import { faq } from '../data/faq'
+import { library } from '../data/library'
+import { procedures } from '../data/procedures'
 import { guidanceTopics } from '../data/guidance'
 import { mawhibaOpportunities, mawhibaPrograms } from '../data/mawhiba'
 import { orgStructure, parentMessage, school } from '../data/school'
@@ -48,6 +50,8 @@ export const content = {
   channels: () => source(schoolChannels, '/contacts/channels'),
   values: () => source(schoolValues, '/values'),
   faq: () => source(faq, '/faq'),
+  library: () => source(library, '/library'),
+  procedures: () => source(procedures, '/procedures'),
 }
 
 /**
@@ -110,4 +114,18 @@ export function valueOfTheWeek(values: SchoolValue[], today = startOfToday()): S
   if (fixed) return fixed
   const weeks = Math.floor(daysBetween(parseDate(valuesConfig.rotationStart), today) / 7)
   return values[((weeks % values.length) + values.length) % values.length]
+}
+
+/** أرشيف قيم الأسابيع السابقة (الأحدث أولًا) مع تاريخ بداية كل أسبوع */
+export function valueArchive(values: SchoolValue[], today = startOfToday(), limit = 12): { value: SchoolValue; weekStart: Date }[] {
+  if (!values.length || valuesConfig.featuredValueId) return []
+  const start = parseDate(valuesConfig.rotationStart)
+  const weeks = Math.floor(daysBetween(start, today) / 7)
+  const out: { value: SchoolValue; weekStart: Date }[] = []
+  for (let w = weeks - 1; w >= 0 && out.length < limit; w--) {
+    const d = new Date(start)
+    d.setDate(d.getDate() + w * 7)
+    out.push({ value: values[w % values.length], weekStart: d })
+  }
+  return out
 }

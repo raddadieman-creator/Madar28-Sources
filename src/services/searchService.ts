@@ -14,7 +14,7 @@ export function getSearchIndex(): Promise<SearchItem[]> {
 }
 
 async function buildIndex(): Promise<SearchItem[]> {
-  const [services, whatToDo, guidance, programs, initiatives, events, contacts, faq] = await Promise.all([
+  const [services, whatToDo, guidance, programs, initiatives, events, contacts, faq, library, procedures] = await Promise.all([
     content.services(),
     content.whatToDo(),
     content.guidance(),
@@ -23,8 +23,50 @@ async function buildIndex(): Promise<SearchItem[]> {
     content.events(),
     content.contacts(),
     content.faq(),
+    content.library(),
+    content.procedures(),
   ])
   const items: SearchItem[] = []
+  library.forEach((d) => {
+    items.push({
+      id: `doc-${d.id}`,
+      title: `${d.title} ${d.year.split('–')[0].trim()}`,
+      description: d.summary,
+      section: 'الأدلة والأنظمة',
+      path: `/library/${d.id}`,
+      keywords: d.tags.join(' ') + ' دليل ' + d.toc.map((t) => t.title).join(' '),
+      icon: 'library',
+      type: 'دليل',
+      year: d.year.split('–')[0].trim(),
+      issuer: d.issuer.split('—')[0].trim(),
+    })
+    d.highlights?.forEach((h, i) =>
+      items.push({
+        id: `doc-${d.id}-h${i}`,
+        title: h.text.length > 70 ? h.text.slice(0, 68) + '…' : h.text,
+        description: `${d.title} ${d.year.split('–')[0].trim()}${h.section ? ` — ${h.section}` : ''}${h.page ? `، ص ${h.page}` : ''}`,
+        section: 'الأدلة والأنظمة',
+        path: `/library/${d.id}${h.page ? `?p=${h.page}` : ''}`,
+        keywords: d.tags.join(' '),
+        icon: 'book',
+        type: 'دليل',
+        year: d.year.split('–')[0].trim(),
+        issuer: d.issuer.split('—')[0].trim(),
+      }),
+    )
+  })
+  procedures.forEach((p) =>
+    items.push({
+      id: `proc-${p.id}`,
+      title: p.title,
+      description: p.when,
+      section: 'دليلك المدرسي',
+      path: `/procedures#${p.id}`,
+      keywords: p.tags.join(' ') + ' إجراء ' + p.steps.map((s) => s.text).join(' '),
+      icon: p.icon,
+      type: 'إجراء',
+    }),
+  )
   services.forEach((s) =>
     items.push({
       id: `service-${s.id}`,
@@ -35,6 +77,7 @@ async function buildIndex(): Promise<SearchItem[]> {
       external: s.url,
       keywords: s.tags.join(' '),
       icon: s.icon,
+      type: 'خدمة',
     }),
   )
   whatToDo.forEach((w) =>
@@ -46,6 +89,7 @@ async function buildIndex(): Promise<SearchItem[]> {
       path: `/services#wtd-${w.id}`,
       keywords: w.tags.join(' '),
       icon: 'compass',
+      type: 'إجراء',
     }),
   )
   guidance.forEach((g) =>
@@ -57,6 +101,7 @@ async function buildIndex(): Promise<SearchItem[]> {
       path: `/guidance/${g.id}`,
       keywords: g.tags.join(' ') + ' ' + g.sections.map((s) => s.heading).join(' '),
       icon: g.icon,
+      type: 'موضوع',
     }),
   )
   programs.forEach((p) =>
@@ -68,6 +113,7 @@ async function buildIndex(): Promise<SearchItem[]> {
       path: `/mawhiba#${p.id}`,
       keywords: p.tags.join(' '),
       icon: p.icon,
+      type: 'موضوع',
     }),
   )
   initiatives.forEach((i) =>
@@ -79,6 +125,7 @@ async function buildIndex(): Promise<SearchItem[]> {
       path: `/volunteer#${i.id}`,
       keywords: i.tags.join(' ') + ' تطوع',
       icon: i.icon,
+      type: 'موضوع',
     }),
   )
   events.forEach((e) =>
@@ -90,6 +137,7 @@ async function buildIndex(): Promise<SearchItem[]> {
       path: `/events/${e.id}`,
       keywords: `${e.category} مناسبة فعالية`,
       icon: 'calendar',
+      type: 'فعالية',
     }),
   )
   contacts.forEach((c) =>
@@ -97,10 +145,11 @@ async function buildIndex(): Promise<SearchItem[]> {
       id: `contact-${c.id}`,
       title: c.name ? `${c.role}: ${c.name}` : c.role,
       description: c.responsibility,
-      section: 'تواصل معنا',
+      section: 'مركز التواصل',
       path: `/contact#${c.id}`,
       keywords: c.topics.join(' ') + ' تواصل رقم',
       icon: c.icon,
+      type: 'تواصل',
     }),
   )
   faq.forEach((f: FaqItem) =>
@@ -109,9 +158,10 @@ async function buildIndex(): Promise<SearchItem[]> {
       title: f.question,
       description: f.answer,
       section: 'أسئلة شائعة',
-      path: f.to?.path ?? '/',
+      path: f.source ? `/library/${f.source.docId}${f.source.page ? `?p=${f.source.page}` : ''}` : (f.to?.path ?? '/'),
       keywords: f.keywords.join(' '),
       icon: 'help',
+      type: 'سؤال',
     }),
   )
   return items

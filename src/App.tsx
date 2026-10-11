@@ -18,6 +18,10 @@ const Contact = lazy(() => import('./pages/Contact'))
 const SearchPage = lazy(() => import('./pages/SearchPage'))
 const Privacy = lazy(() => import('./pages/Privacy'))
 const NotFound = lazy(() => import('./pages/NotFound'))
+const Library = lazy(() => import('./pages/Library'))
+const GuideReader = lazy(() => import('./pages/GuideReader'))
+const Procedures = lazy(() => import('./pages/Procedures'))
+const Values = lazy(() => import('./pages/Values'))
 
 /**
  * HashRouter يضمن عمل الروابط وتحديث الصفحة مباشرة على GitHub Pages
@@ -32,6 +36,10 @@ export default function App() {
           <Route element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
+            <Route path="library" element={<Library />} />
+            <Route path="library/:id" element={<GuideReader />} />
+            <Route path="procedures" element={<Procedures />} />
+            <Route path="values" element={<Values />} />
             <Route path="services" element={<Services />} />
             <Route path="guidance" element={<Guidance />} />
             <Route path="guidance/:id" element={<GuidanceTopic />} />
