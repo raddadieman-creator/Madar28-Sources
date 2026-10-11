@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { defineConfig, loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { viteSingleFile } from 'vite-plugin-singlefile'
 
 /**
  * أرقام التواصل: تُقرأ من private/contact-phones.json (ملف خاص غير مرفوع إلى GitHub).
@@ -42,8 +43,35 @@ function contactPhones(): Plugin {
 
 // المسار الأساسي: يُضبط تلقائيًا في GitHub Actions إلى /اسم-المستودع/
 // ويمكن تغييره يدويًا عبر المتغير VITE_BASE في ملف .env
+/**
+ * بناء «ملف واحد» (npm run build:single): يدمج الموقع كاملًا — الكود والخطوط والصور —
+ * في ملف index.html واحد يمكن رفعه إلى GitHub مباشرة دون مجلدات أو فك ضغط.
+ */
+function inlineIcons(): Plugin {
+  return {
+    name: 'madar-inline-icons',
+    transformIndexHtml(html) {
+      const svg = fs.readFileSync(path.resolve(process.cwd(), 'public/madar-icon.svg'), 'utf8')
+      const png = fs.readFileSync(path.resolve(process.cwd(), 'public/madar-icon-192.png')).toString('base64')
+      return html
+        .replace('href="./madar-icon.svg"', `href="data:image/svg+xml,${encodeURIComponent(svg)}"`)
+        .replace(/\s*<link rel="alternate icon"[^>]*>/, '')
+        .replace('href="./madar-icon-192.png"', `href="data:image/png;base64,${png}"`)
+    },
+  }
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
+  const single = mode === 'single'
+  if (single) {
+    return {
+      base: './',
+      plugins: [react(), contactPhones(), viteSingleFile({ removeViteModuleLoader: true }), inlineIcons()],
+      publicDir: false as const,
+      build: { target: 'es2020', outDir: 'dist-single', assetsInlineLimit: 100_000_000, cssCodeSplit: false },
+    }
+  }
   return {
     base: env.VITE_BASE || './',
     plugins: [react(), contactPhones()],

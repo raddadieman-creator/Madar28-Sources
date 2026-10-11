@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import schoolMark from '../../assets/logo-mark.webp'
 import { school } from '../../data/school'
 import { MadarIcon, MadarName } from '../brand/Madar'
 
@@ -7,7 +8,7 @@ export function Footer() {
     <footer className="mt-16 border-t border-lav-100 px-4 py-8 text-sm text-ink-500 md:px-8 lg:px-10">
       <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
-          <img src={`${import.meta.env.BASE_URL}logo-mark.webp`} alt="" width={36} height={36} className="h-9 w-9 rounded-lg bg-cream" loading="lazy" />
+          <img src={schoolMark} alt="" width={36} height={36} className="h-9 w-9 rounded-lg bg-cream" loading="lazy" />
           <p>
             {school.fullName}
             <span className="block text-xs text-ink-400">إدارة التعليم بالمدينة المنورة</span>

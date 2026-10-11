@@ -12,6 +12,7 @@ import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { formatGregorian, formatHijri, startOfToday } from '../lib/dates'
 import { activeAnnouncements, content, upcomingEvents, valueOfTheWeek } from '../services/contentService'
+import schoolLogo from '../assets/logo.webp'
 
 const SEARCH_HINTS = ['النقل المدرسي', 'الغياب بعذر', 'منصة مدرستي', 'موهبة', 'الاختبارات']
 
@@ -90,7 +91,7 @@ export default function Home() {
           <div className="order-1 mx-auto md:order-2">
             <div className="arch-top w-40 overflow-hidden bg-cream p-3 shadow-lift ring-4 ring-white/25 md:w-60">
               <img
-                src={`${import.meta.env.BASE_URL}logo.webp`}
+                src={schoolLogo}
                 alt={`شعار ${school?.fullName ?? 'المدرسة'}`}
                 width={512}
                 height={512}
