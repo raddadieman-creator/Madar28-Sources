@@ -57,7 +57,7 @@ export default function Home() {
               </time>
             </p>
             <h1 id="hero-title" className="mt-4 text-[2.1rem] lg:mt-0 font-extrabold leading-tight text-white md:text-[3.25rem] md:leading-[1.2]">
-              كيف نساعدك اليوم؟
+              أهلًا بكم في مدار 28
             </h1>
             <p className="mt-4 max-w-xl text-[15px] leading-8 text-white/85 md:text-[17px]">{school?.welcome}</p>
             <div className="mt-7 max-w-2xl">
