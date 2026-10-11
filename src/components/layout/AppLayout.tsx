@@ -102,7 +102,7 @@ export function AppLayout() {
         <div className="fixed bottom-6 end-6 z-30 hidden flex-col items-end gap-2 lg:flex">
           {hint && (
             <p className="bubble-in me-3 max-w-[15rem] rounded-2xl rounded-ee-sm bg-white px-4 py-2.5 text-sm text-ink-700 shadow-lift ring-1 ring-lav-100">
-              لديك سؤال؟ أنا رُشد، أجيبك فورًا.
+              أنا رُشد، كيف أساعدك؟
             </p>
           )}
           <button

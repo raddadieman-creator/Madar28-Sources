@@ -1,4 +1,4 @@
-import { BookCheck, ChevronLeft, Compass, ExternalLink, Library, Phone, ShieldCheck, Volume2 } from 'lucide-react'
+import { ChevronLeft, Compass, ExternalLink, Library, Phone } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AnnouncementItem } from '../components/AnnouncementItem'
 import { EventRow } from '../components/EventRow'
@@ -210,33 +210,12 @@ export default function Home() {
       >
         <div className="grid items-center gap-2 md:grid-cols-[minmax(0,1fr)_17rem] lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div className="order-2 p-6 pt-0 md:order-1 md:p-10">
-            <h2 id="rushd-title-home" className="text-2xl font-semibold md:text-[1.75rem]">
-              رُشد، مساعدك في مدار 28
+            <h2 id="rushd-title-home" className="text-3xl font-extrabold md:text-4xl">
+              رُشد
             </h2>
-            <p className="mt-2 max-w-xl text-[15px] leading-8 text-ink-600">
-              اسأله كتابةً أو صوتًا عن الغياب ودرجات السلوك والنقل ومنصة مدرستي؛ فيجيبك من الأدلة المعتمدة مع ذكر المصدر، ويفتح لك الدليل عند الصفحة المعنية.
-            </p>
-            <ul className="mt-5 grid gap-2 text-sm text-ink-700 sm:grid-cols-3">
-              {[
-                { icon: ShieldCheck, t: 'لا يطلب بيانات شخصية' },
-                { icon: BookCheck, t: 'يذكر المصدر والصفحة' },
-                { icon: Volume2, t: 'يقرأ الإجابة بصوت عربي' },
-              ].map((f) => (
-                <li key={f.t} className="flex items-center gap-2 rounded-xl bg-white/70 px-3 py-2 ring-1 ring-white">
-                  <f.icon className="h-4 w-4 shrink-0 text-sage-600" aria-hidden="true" />
-                  {f.t}
-                </li>
-              ))}
-            </ul>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {['ماذا يترتب على التأخر الصباحي؟', 'كيف تُعوَّض درجات السلوك؟', 'نسيت كلمة مرور منصة مدرستي'].map((q) => (
-                <button key={q} type="button" className="chip bg-white/80" onClick={() => open(q)}>
-                  {q}
-                </button>
-              ))}
-            </div>
-            <button type="button" onClick={() => open()} className="btn-primary mt-6 px-6 py-3 text-base">
-              تحدّث مع رُشد
+            <p className="mt-2 text-lg text-ink-600">مساعدك في مدار 28</p>
+            <button type="button" onClick={() => open()} className="btn-primary mt-6 px-7 py-3 text-base">
+              اسأل رُشد
             </button>
           </div>
 
@@ -251,7 +230,7 @@ export default function Home() {
             </svg>
             <div className="relative">
               <p className="bubble-in absolute -top-6 end-[72%] whitespace-nowrap rounded-2xl rounded-ee-sm bg-white px-3.5 py-2 text-sm font-medium text-ink-800 shadow-soft ring-1 ring-lav-100">
-                أهلًا بك! اسألني
+                أهلًا بك
               </p>
               <div className="rushd-float">
                 <RushdBot size={150} body />

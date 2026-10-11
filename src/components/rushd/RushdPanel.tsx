@@ -1,4 +1,4 @@
-import { ExternalLink, Mic, MicOff, Send, ShieldCheck, Volume2, VolumeX, X } from 'lucide-react'
+import { ExternalLink, Mic, MicOff, Send, Volume2, VolumeX, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { SourceLink, sourcePath } from '../SourceLink'
 import { Link } from 'react-router-dom'
@@ -20,8 +20,7 @@ interface Message {
   reply?: RushdReply
 }
 
-const WELCOME =
-  'أهلًا بك، أنا رُشد. اسألني عن خدمات المدرسة وأدلتها ومواعيدها، وسأدلّك على الإجابة أو المسؤولة المختصة.'
+const WELCOME = 'أهلًا بك، أنا رُشد. كيف أساعدك؟'
 
 /** النص الذي يُقرأ صوتيًا لكل رد */
 function replyText(r: RushdReply): string {
@@ -198,9 +197,7 @@ export function RushdPanel() {
                 <RushdBot size={92} body />
               </div>
               <p className="mt-3 text-base font-semibold text-ink-900">أهلًا بك، أنا رُشد</p>
-              <p className="mt-1 max-w-xs text-sm leading-7 text-ink-600">
-                أجيبك عن خدمات المدرسة وأدلتها ومواعيدها، وأدلّك على المسؤولة المختصة.
-              </p>
+              <p className="mt-1 text-sm text-ink-600">كيف أساعدك؟</p>
             </div>
           ) : m.from === 'user' ? (
             <div key={m.id} className="flex justify-end">
@@ -289,10 +286,6 @@ export function RushdPanel() {
             <span className="sr-only">إرسال</span>
           </button>
         </div>
-        <p className="mt-2 flex items-center gap-1.5 text-[11px] text-ink-500">
-          <ShieldCheck className="h-3.5 w-3.5 shrink-0 text-sage-600" aria-hidden="true" />
-          لا تكتب رقم الهوية أو الجوال أو بيانات الطالبة؛ فالمحادثة لا تُحفظ ولا تُرسل.
-        </p>
       </form>
     </div>
   )
