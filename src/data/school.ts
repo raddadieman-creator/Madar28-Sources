@@ -36,8 +36,8 @@ export const school: SchoolInfo = {
     ],
     signature: 'مديرة المدرسة',
   },
-  address: 'المدينة المنورة — يُضاف العنوان التفصيلي بعد اعتماده من المدرسة',
-  mapUrl: undefined,
+  address: 'المدينة المنورة',
+  mapUrl: 'https://maps.app.goo.gl/4XGccGkn8umhVrhe9',
   /** أوقات الدوام — تُضاف بعد اعتمادها من الإدارة (تُخفى البطاقة ما دامت فارغة) */
   workingHours: '',
   email: undefined,
