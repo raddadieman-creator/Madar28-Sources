@@ -18,7 +18,7 @@ export function ValueCard({ value }: { value: SchoolValue }) {
         <div>
           <p className="flex items-center gap-2 text-sm font-semibold text-gold-700">
             <Icon name={value.icon} className="h-4 w-4" />
-            قيمة الأسبوع
+            ترسيخ القيم — قيمة الأسبوع
           </p>
           <h2 id="value-title" className="mt-2 text-3xl font-extrabold text-ink-900 md:text-4xl">
             {value.name}
@@ -38,7 +38,7 @@ export function ValueCard({ value }: { value: SchoolValue }) {
           </p>
           <p className="mt-2 text-[15px] leading-7 text-ink-700">{value.challenge}</p>
           <Link to="/values" className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-gold-700 hover:text-ink-900">
-            السلوك المتوقع ورسالة الأسرة والأرشيف
+            خطوات القيمة وقيم العام
             <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </Link>
         </div>

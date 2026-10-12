@@ -27,6 +27,16 @@ async function buildIndex(): Promise<SearchItem[]> {
     content.procedures(),
   ])
   const items: SearchItem[] = []
+  items.push({
+    id: 'nafs',
+    title: 'اختبارات نافس',
+    description: 'الاختبارات الوطنية للصف الثالث المتوسط في القراءة والرياضيات والعلوم، والنتائج عبر منصة مستقبلهم.',
+    section: 'اختبارات نافس',
+    path: '/nafs',
+    keywords: 'نافس الاختبارات الوطنية ثالث متوسط قراءة رياضيات علوم مستقبلهم',
+    icon: 'graduation',
+    type: 'خدمة',
+  })
   library.forEach((d) => {
     items.push({
       id: `doc-${d.id}`,

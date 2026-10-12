@@ -1,4 +1,4 @@
-import { Gem, HeartHandshake, School, Target, UserRoundCheck } from 'lucide-react'
+import { BookHeart, Gem, HeartHandshake, School, Target, UserRoundCheck } from 'lucide-react'
 import { SourceLink } from '../components/SourceLink'
 import { Icon } from '../components/ui/Icon'
 import { PageHeader, Skeleton } from '../components/ui/primitives'
@@ -8,7 +8,7 @@ import { formatGregorian, formatHijri } from '../lib/dates'
 import { content, valueArchive, valueOfTheWeek } from '../services/contentService'
 
 export default function Values() {
-  useTitle('قيمة الأسبوع')
+  useTitle('ترسيخ القيم')
   const { data: values } = useContent(content.values)
   if (!values) return <Skeleton className="h-96" />
   const v = valueOfTheWeek(values)
@@ -24,7 +24,35 @@ export default function Values() {
 
   return (
     <>
-      <PageHeader title="قيمة الأسبوع" intro="قيمة واحدة كل أسبوع، تُعاش في الفصل والبيت." icon={<Gem className="h-6 w-6" />} />
+      <PageHeader title="ترسيخ القيم" intro="تسع قيم يعمل عليها العام الدراسي، لكل أسبوع قيمة واحدة تُعاش في الفصل والبيت." icon={<Gem className="h-6 w-6" />} />
+
+      {/* كيف تُرسَّخ القيمة؟ أربع خطوات كل أسبوع */}
+      <section aria-labelledby="how" className="mb-8">
+        <h2 id="how" className="mb-3 text-lg font-bold">
+          كيف تُرسَّخ القيمة كل أسبوع؟
+        </h2>
+        <ol className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            { icon: BookHeart, t: 'الفهم', d: 'معنى القيمة والآية المرتبطة بها.' },
+            { icon: UserRoundCheck, t: 'الممارسة', d: 'سلوك محدد تمارسه الطالبة في المدرسة.' },
+            { icon: Target, t: 'التحدي', d: 'مهمة أسبوعية تُنجزها الطالبة وتُقاس.' },
+            { icon: HeartHandshake, t: 'الشراكة مع الأسرة', d: 'رسالة قصيرة تعين الأسرة على القيمة في البيت.' },
+          ].map((s, i) => (
+            <li key={s.t} className="flex gap-3 rounded-2xl bg-white p-4 ring-1 ring-lav-100">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gold-100 text-sm font-extrabold text-gold-700">{i + 1}</span>
+              <span>
+                <span className="flex items-center gap-1.5 font-bold text-ink-900">
+                  <s.icon className="h-4 w-4 text-lav-600" aria-hidden="true" />
+                  {s.t}
+                </span>
+                <span className="mt-0.5 block text-sm leading-6 text-ink-600">{s.d}</span>
+              </span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <h2 className="mb-3 text-lg font-bold">قيمة هذا الأسبوع</h2>
 
       <article className="overflow-hidden rounded-[2rem] bg-gradient-to-bl from-gold-100 via-cream to-white ring-1 ring-gold-100">
         <header className="px-6 pb-4 pt-8 text-center md:px-10">
@@ -57,6 +85,26 @@ export default function Values() {
           ))}
         </div>
       </article>
+
+      <section aria-labelledby="year-values" className="mt-10">
+        <h2 id="year-values" className="mb-1 text-lg font-bold">
+          قيم العام الدراسي
+        </h2>
+        <p className="mb-4 text-sm text-ink-500">القيم الست الأولى هي القيم التي يُقيَّم بها السلوك المتميز في قواعد السلوك والمواظبة.</p>
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {values.map((x) => (
+            <li key={x.id} className={`rounded-2xl p-4 ring-1 ${x.id === v.id ? 'bg-gold-100 ring-gold-500/40' : 'bg-white ring-lav-100'}`}>
+              <p className="flex items-center gap-2 font-bold text-ink-900">
+                <Icon name={x.icon} className="h-4 w-4 text-gold-700" />
+                {x.name}
+                {x.id === v.id && <span className="ms-auto rounded-full bg-white px-2 py-0.5 text-[11px] font-semibold text-gold-700">هذا الأسبوع</span>}
+                {x.id !== v.id && x.officialSource && <span className="ms-auto rounded-full bg-lav-50 px-2 py-0.5 text-[11px] text-lav-700">السلوك المتميز</span>}
+              </p>
+              <p className="mt-1.5 text-sm leading-6 text-ink-600">{x.meaning}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
 
       {archive.length > 0 && (
         <section aria-labelledby="archive-title" className="mt-10">

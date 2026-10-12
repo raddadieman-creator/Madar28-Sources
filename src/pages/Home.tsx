@@ -43,7 +43,7 @@ const PANELS: { title: string; hint: string; to: string; cta: string; icon: type
       { label: 'التأخر الصباحي', to: '/procedures#late' },
       { label: 'الغياب', to: '/procedures#absence' },
       { label: 'تعويض درجات السلوك', to: '/procedures#behavior-points' },
-      { label: 'الإبلاغ عن تنمر', to: '/procedures#bullying-report' },
+      { label: 'اختبارات نافس', to: '/nafs' },
     ],
   },
   {
