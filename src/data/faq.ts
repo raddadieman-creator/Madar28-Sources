@@ -247,6 +247,18 @@ export const faq: FaqItem[] = [
     category: 'تواصل',
   },
   {
+    id: 'whatsapp-groups',
+    question: 'هل للصفوف مجموعات على واتساب؟',
+    answer: 'نعم، لكل صف مجموعة: الأول المتوسط، والثاني المتوسط، والثالث المتوسط.',
+    keywords: ['واتساب', 'واتس', 'قروب', 'قروبات', 'مجموعات', 'مجموعة الصف', 'أول متوسط', 'ثاني متوسط', 'ثالث متوسط'],
+    links: [
+      { label: 'مجموعة الصف الأول المتوسط', url: 'https://chat.whatsapp.com/Cy8qtWfq5Ta4seEbYSt70v' },
+      { label: 'مجموعة الصف الثاني المتوسط', url: 'https://chat.whatsapp.com/HOFYZlnYNSq9NXBbsCNDJ0' },
+      { label: 'مجموعة الصف الثالث المتوسط', url: 'https://chat.whatsapp.com/Gnrs9uPkmo81hCYUav0VZg' },
+    ],
+    category: 'تواصل',
+  },
+  {
     id: 'suggestion',
     question: 'كيف أرسل اقتراحًا للمدرسة؟',
     answer:

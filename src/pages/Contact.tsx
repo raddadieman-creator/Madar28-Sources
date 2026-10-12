@@ -3,7 +3,7 @@ import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ContactCard } from '../components/ContactCard'
 import { ContactComposer } from '../components/ContactComposer'
-import { officialLinks, telegramGroup } from '../data/links'
+import { officialLinks, telegramGroup, whatsappGroups } from '../data/links'
 import { Notice, PageHeader, Skeleton } from '../components/ui/primitives'
 import { NUMBERS_APPROVED } from '../data/contact-phones'
 import { useContent } from '../hooks/useContent'
@@ -185,6 +185,29 @@ export default function Contact() {
           <a href={telegramGroup.url} target="_blank" rel="noopener noreferrer" className="btn-primary px-5 py-2.5">
             {telegramGroup.action}
           </a>
+        </div>
+        <div className="mt-3 rounded-3xl bg-white p-5 ring-1 ring-lav-100">
+          <p className="flex items-center gap-2 font-bold text-ink-900">
+            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#25D366] text-white">
+              <MessageCircle className="h-4 w-4" aria-hidden="true" />
+            </span>
+            مجموعات الصفوف على واتساب
+          </p>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-3">
+            {whatsappGroups.map((g) => (
+              <li key={g.url}>
+                <a
+                  href={g.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between gap-3 rounded-2xl bg-lav-50/60 px-4 py-3 font-semibold text-ink-900 ring-1 ring-lav-100 transition-colors hover:bg-white hover:ring-[#25D366]/50"
+                >
+                  {g.grade}
+                  <ExternalLink className="h-4 w-4 shrink-0 text-ink-400" aria-hidden="true" />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
         <ul className="mt-3 grid gap-3 sm:grid-cols-3">
           {Object.values(officialLinks).map((l) => (

@@ -58,6 +58,7 @@ const PANELS: { title: string; hint: string; to: string; cta: string; icon: type
       { label: 'طلب موعد', to: '/contact?kind=appointment' },
       { label: 'ملاحظة أو اقتراح', to: '/contact?kind=suggestion' },
       { label: telegramGroup.action + ': التوجيه الطلابي', href: telegramGroup.url },
+      { label: 'مجموعات الصفوف على واتساب', to: '/contact' },
     ],
   },
 ]

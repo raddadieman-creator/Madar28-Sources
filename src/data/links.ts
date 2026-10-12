@@ -18,3 +18,10 @@ export const telegramGroup = {
   url: 'https://t.me/+YoJ_y_MXBpI5YjVk',
   action: 'الانضمام إلى المجموعة',
 }
+
+/** مجموعات الصفوف على واتساب (روابط الدعوة من المدرسة، 12 أكتوبر 2026) */
+export const whatsappGroups = [
+  { grade: 'الصف الأول المتوسط', url: 'https://chat.whatsapp.com/Cy8qtWfq5Ta4seEbYSt70v' },
+  { grade: 'الصف الثاني المتوسط', url: 'https://chat.whatsapp.com/HOFYZlnYNSq9NXBbsCNDJ0' },
+  { grade: 'الصف الثالث المتوسط', url: 'https://chat.whatsapp.com/Gnrs9uPkmo81hCYUav0VZg' },
+]
