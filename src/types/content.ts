@@ -30,6 +30,10 @@ export interface SchoolInfo {
   vision: string
   mission: string
   goals: string[]
+  /** شعار مختصر */
+  slogan?: string
+  /** القيم المؤسسية المعتمدة */
+  coreValues?: string[]
   principalWord: { title: string; body: string[]; signature: string }
   address: string
   mapUrl?: string

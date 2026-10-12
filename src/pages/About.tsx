@@ -1,6 +1,6 @@
 import { Clock, MapPin, Quote, School } from 'lucide-react'
 import { Icon } from '../components/ui/Icon'
-import { DraftBadge, Notice, PageHeader, SectionTitle, Skeleton } from '../components/ui/primitives'
+import { DraftBadge, PageHeader, SectionTitle, Skeleton } from '../components/ui/primitives'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { content } from '../services/contentService'
@@ -9,7 +9,6 @@ export default function About() {
   useTitle('عن المدرسة')
   const { data: s } = useContent(content.school)
   const { data: org } = useContent(content.orgStructure)
-  const { data: values } = useContent(content.values)
 
   if (!s) return <Skeleton className="h-96" />
 
@@ -17,22 +16,16 @@ export default function About() {
     <>
       <PageHeader title="عن المدرسة" intro={s.fullName} icon={<School className="h-6 w-6" />} />
 
-      {s.status === 'draft' && (
-        <div className="mb-8">
-          <Notice>نصوص الرؤية والرسالة والأهداف وكلمة المديرة صياغات مقترحة، تُعدَّل وتُعتمد من إدارة المدرسة قبل الإطلاق الرسمي.</Notice>
-        </div>
-      )}
-
       <div className="grid gap-6 md:grid-cols-2">
         <section aria-labelledby="vision" className="arch-top bg-gradient-to-b from-lav-100 to-white px-6 pb-7 pt-14 text-center ring-1 ring-lav-100">
           <h2 id="vision" className="text-lg font-semibold">
-            الرؤية <DraftBadge status={s.status} />
+            الرؤية
           </h2>
           <p className="mx-auto mt-3 max-w-sm text-[17px] leading-9 text-ink-800">{s.vision}</p>
         </section>
         <section aria-labelledby="mission" className="arch-top bg-gradient-to-b from-sage-100 to-white px-6 pb-7 pt-14 text-center ring-1 ring-sage-100">
           <h2 id="mission" className="text-lg font-semibold">
-            الرسالة <DraftBadge status={s.status} />
+            الرسالة
           </h2>
           <p className="mx-auto mt-3 max-w-sm text-[17px] leading-9 text-ink-800">{s.mission}</p>
         </section>
@@ -40,27 +33,40 @@ export default function About() {
 
       <div className="mt-12 grid gap-10 lg:grid-cols-2">
         <section aria-labelledby="goals">
-          <SectionTitle id="goals" title="أهدافنا" />
+          <SectionTitle id="goals" title="المحاور" />
           <ul className="space-y-3">
-            {s.goals.map((g) => (
-              <li key={g} className="flex gap-3 rounded-2xl bg-white p-4 ring-1 ring-lav-100">
-                <Icon name="check-circle" className="mt-1 h-5 w-5 shrink-0 text-sage-500" />
-                <span className="text-ink-700">{g}</span>
-              </li>
-            ))}
+            {s.goals.map((g) => {
+              const [head, ...rest] = g.split(':')
+              return (
+                <li key={g} className="flex gap-3 rounded-2xl bg-white p-4 ring-1 ring-lav-100">
+                  <Icon name="check-circle" className="mt-1 h-5 w-5 shrink-0 text-sage-500" />
+                  <span className="text-ink-700">
+                    {rest.length ? (
+                      <>
+                        <span className="font-bold text-ink-900">{head}</span>
+                        <span className="block text-sm text-ink-600">{rest.join(':').trim()}</span>
+                      </>
+                    ) : (
+                      g
+                    )}
+                  </span>
+                </li>
+              )
+            })}
           </ul>
         </section>
 
         <section aria-labelledby="values-about">
-          <SectionTitle id="values-about" title="قيمنا" />
-          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
-            {values?.map((v) => (
-              <li key={v.id} className="flex flex-col items-center rounded-2xl bg-white p-4 text-center ring-1 ring-lav-100">
-                <Icon name={v.icon} className="h-6 w-6 text-sage-600" />
-                <span className="mt-2 text-sm font-medium text-ink-900">{v.name}</span>
+          <SectionTitle id="values-about" title="القيم" />
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {(s.coreValues ?? []).map((v, i) => (
+              <li key={v} className="flex flex-col items-center rounded-2xl bg-white p-4 text-center ring-1 ring-lav-100">
+                <Icon name={['users', 'lightbulb', 'book', 'handshake', 'award'][i] ?? 'gem'} className="h-6 w-6 text-lav-600" />
+                <span className="mt-2 text-sm font-bold text-ink-900">{v}</span>
               </li>
             ))}
           </ul>
+          {s.slogan && <p className="mt-5 rounded-2xl bg-lav-50 px-4 py-3 text-center font-bold text-lav-800">{s.slogan}</p>}
         </section>
       </div>
 
