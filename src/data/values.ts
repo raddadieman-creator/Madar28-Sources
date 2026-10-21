@@ -13,7 +13,7 @@ import type { SchoolValue } from '../types/content'
  * - «النشاط المدرسي» مقترح، يُنفَّذ بعد اعتماده من المدرسة.
  */
 export const valuesConfig = {
-  rotationStart: '2026-08-23',
+  rotationStart: '2026-08-30',
   featuredValueId: '' as string,
 }
 
