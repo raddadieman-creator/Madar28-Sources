@@ -24,7 +24,7 @@ export default function Values() {
 
   return (
     <>
-      <PageHeader title="ترسيخ القيم" intro="تسع قيم يعمل عليها العام الدراسي، لكل أسبوع قيمة واحدة تُعاش في الفصل والبيت." icon={<Gem className="h-6 w-6" />} />
+      <PageHeader title="ترسيخ القيم" intro="القيم التسع في مصفوفة القيم والسلوك الإيجابي، لكل أسبوع قيمة واحدة تُعاش في الفصل والبيت." icon={<Gem className="h-6 w-6" />} />
 
       {/* كيف تُرسَّخ القيمة؟ أربع خطوات كل أسبوع */}
       <section aria-labelledby="how" className="mb-8">
@@ -90,7 +90,7 @@ export default function Values() {
         <h2 id="year-values" className="mb-1 text-lg font-bold">
           قيم العام الدراسي
         </h2>
-        <p className="mb-4 text-sm text-ink-500">القيم الست الأولى هي القيم التي يُقيَّم بها السلوك المتميز في قواعد السلوك والمواظبة.</p>
+        <p className="mb-4 text-sm text-ink-500">القيم الموسومة «السلوك المتميز» ترد أيضًا في قواعد السلوك والمواظبة 1447هـ.</p>
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {values.map((x) => (
             <li key={x.id} className={`rounded-2xl p-4 ring-1 ${x.id === v.id ? 'bg-gold-100 ring-gold-500/40' : 'bg-white ring-lav-100'}`}>
