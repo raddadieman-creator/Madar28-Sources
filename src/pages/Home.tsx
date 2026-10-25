@@ -8,6 +8,7 @@ import { SearchBox } from '../components/SearchBox'
 import { EmptyState, SectionTitle, Skeleton } from '../components/ui/primitives'
 import { officialLinks, telegramGroup } from '../data/links'
 import { ValueCard } from '../components/ValueCard'
+import { FeaturedAnnouncement } from '../components/FeaturedAnnouncement'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { formatGregorian, formatHijri, startOfToday } from '../lib/dates'
@@ -43,6 +44,7 @@ const PANELS: { title: string; hint: string; to: string; cta: string; icon: type
       { label: 'التأخر الصباحي', to: '/procedures#late' },
       { label: 'الغياب', to: '/procedures#absence' },
       { label: 'تعويض درجات السلوك', to: '/procedures#behavior-points' },
+      { label: 'الشؤون التعليمية', to: '/academic' },
       { label: 'اختبارات نافس', to: '/nafs' },
     ],
   },
@@ -72,12 +74,23 @@ export default function Home() {
   const { data: values } = useContent(content.values)
 
   const today = startOfToday()
-  const announcements = anns ? activeAnnouncements(anns).slice(0, 4) : []
+  const active = anns ? activeAnnouncements(anns) : []
+  const featured = active.filter((a) => a.featured)
+  const announcements = active.filter((a) => !a.featured).slice(0, 4)
   const upcoming = events ? upcomingEvents(events, 4) : []
   const value = values ? valueOfTheWeek(values) : undefined
 
   return (
     <div className="space-y-14 md:space-y-16">
+      {/* الإعلانات البارزة أعلى الصفحة */}
+      {featured.length > 0 && (
+        <div className="space-y-4">
+          {featured.map((a) => (
+            <FeaturedAnnouncement key={a.id} a={a} />
+          ))}
+        </div>
+      )}
+
       {/* البطل: لوحة خزامى بتدرج هادئ، والبحث في قلبها، وشعار المدرسة في قوس */}
       <section
         aria-labelledby="hero-title"

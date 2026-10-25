@@ -1,4 +1,5 @@
 import type { Announcement } from '../types/content'
+import winterPoster from '../assets/winter-schedule-1448.webp'
 
 /**
  * الإعلانات.
@@ -7,6 +8,25 @@ import type { Announcement } from '../types/content'
  * - الإعلانات الحالية أمثلة تجريبية (draft) تُستبدل بإعلانات المدرسة.
  */
 export const announcements: Announcement[] = [
+  {
+    id: 'winter-schedule-1448',
+    title: 'مواعيد الدوام الشتوي',
+    body: 'تُعلن المدرسة مواعيد الدوام الشتوي لجميع أيام الأسبوع:',
+    schedule: [
+      { label: 'الحضور', time: '7:00 صباحًا' },
+      { label: 'الاصطفاف الصباحي', time: '7:15 صباحًا' },
+      { label: 'بداية الحصة الأولى', time: '7:30 صباحًا' },
+      { label: 'الانصراف', time: '1:15 ظهرًا' },
+    ],
+    footer: 'نأمل الالتزام بمواعيد الحضور والانصراف، مع الشكر على التعاون. مديرة المدرسة: أ. بدري عبدالله الحارثي.',
+    image: { src: winterPoster, alt: 'إعلان مواعيد الدوام الشتوي — المتوسطة الثامنة والعشرون' },
+    date: '2026-10-25',
+    expires: '2027-02-07',
+    audience: 'الجميع',
+    pinned: true,
+    featured: true,
+    status: 'approved',
+  },
   {
     id: 'portal-launch',
     title: 'إطلاق «مدار 28» في نسخته التجريبية',

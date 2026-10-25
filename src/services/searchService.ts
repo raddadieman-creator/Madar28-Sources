@@ -37,6 +37,16 @@ async function buildIndex(): Promise<SearchItem[]> {
     icon: 'graduation',
     type: 'خدمة',
   })
+  items.push({
+    id: 'academic',
+    title: 'الشؤون التعليمية — خدمة المستفيد',
+    description: 'طلبات الشؤون التعليمية للطالبة وولي الأمر والمعلمة والإدارية: الجداول والاختبارات والدرجات والاستئذان.',
+    section: 'الشؤون التعليمية',
+    path: '/academic',
+    keywords: 'الشؤون التعليمية خدمة المستفيد وكيلة جدول حصص انتظار اختبارات درجات رصد نور لجان خطط معلمة إدارية',
+    icon: 'graduation',
+    type: 'خدمة',
+  })
   library.forEach((d) => {
     items.push({
       id: `doc-${d.id}`,

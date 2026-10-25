@@ -23,6 +23,7 @@ const GuideReader = lazy(() => import('./pages/GuideReader'))
 const Procedures = lazy(() => import('./pages/Procedures'))
 const Values = lazy(() => import('./pages/Values'))
 const Nafs = lazy(() => import('./pages/Nafs'))
+const Academic = lazy(() => import('./pages/Academic'))
 
 /**
  * HashRouter يضمن عمل الروابط وتحديث الصفحة مباشرة على GitHub Pages
@@ -42,6 +43,7 @@ export default function App() {
             <Route path="procedures" element={<Procedures />} />
             <Route path="values" element={<Values />} />
             <Route path="nafs" element={<Nafs />} />
+            <Route path="academic" element={<Academic />} />
             <Route path="services" element={<Services />} />
             <Route path="guidance" element={<Guidance />} />
             <Route path="guidance/:id" element={<GuidanceTopic />} />

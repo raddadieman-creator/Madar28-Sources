@@ -14,6 +14,7 @@ export const mainNav: NavItem[] = [
   { label: 'الرئيسية', path: '/', icon: 'home', hint: 'الأقسام والإعلانات' },
   { label: 'الأدلة والأنظمة', path: '/library', icon: 'library', hint: 'قواعد السلوك والمواظبة 1447هـ' },
   { label: 'دليلك المدرسي', path: '/procedures', icon: 'compass', hint: 'الإجراءات خطوة بخطوة' },
+  { label: 'الشؤون التعليمية', path: '/academic', icon: 'graduation', hint: 'خدمة المستفيد' },
   { label: 'مركز التواصل', path: '/contact', icon: 'phone', hint: 'طلب، موعد، استفسار' },
   { label: 'التوجيه الطلابي', path: '/guidance', icon: 'heart', hint: 'التنمر، النمو، الاختبارات' },
   { label: 'ترسيخ القيم', path: '/values', icon: 'gem', hint: 'قيمة الأسبوع وقيم العام' },

@@ -53,7 +53,7 @@ export default function Contact() {
 
       {contacts && (
         <div className="mb-10">
-          <ContactComposer contacts={contacts} initialTo={params.get('to') ?? undefined} initialTopic={params.get('topic') ?? undefined} initialKind={params.get('kind') ?? undefined} />
+          <ContactComposer contacts={contacts} initialTo={params.get('to') ?? undefined} initialTopic={params.get('topic') ?? undefined} initialKind={params.get('kind') ?? undefined} initialSender={params.get('from') ?? undefined} />
         </div>
       )}
 

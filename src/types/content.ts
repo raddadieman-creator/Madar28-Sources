@@ -224,11 +224,19 @@ export interface Announcement {
   id: string
   title: string
   body: string
+  /** مواعيد اختيارية تُعرض بطاقات (مثل الدوام الشتوي) */
+  schedule?: { label: string; time: string }[]
+  /** سطر ختامي اختياري */
+  footer?: string
+  /** صورة مرفقة اختيارية (تعميم المدرسة) */
+  image?: { src: string; alt: string }
   date: string
   /** تاريخ انتهاء العرض (اختياري) */
   expires?: string
   audience: Audience
   pinned?: boolean
+  /** يظهر في أعلى الصفحة الرئيسية بدل قائمة الإعلانات */
+  featured?: boolean
   link?: ExternalLink
   status: ContentStatus
 }

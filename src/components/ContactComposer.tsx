@@ -26,7 +26,7 @@ const KINDS: { id: Kind; label: string; hint: string; defaultTo: string; allowed
 ]
 
 const GRADES = ['', 'الأول المتوسط', 'الثاني المتوسط', 'الثالث المتوسط']
-const SENDERS = ['ولي أمر', 'طالبة', 'أخرى']
+const SENDERS = ['ولي أمر', 'طالبة', 'معلمة', 'إدارية', 'أخرى']
 const TIMES = ['', 'بداية الدوام', 'منتصف الدوام', 'نهاية الدوام']
 
 export function ContactComposer({
@@ -34,18 +34,20 @@ export function ContactComposer({
   initialTo,
   initialTopic,
   initialKind,
+  initialSender,
 }: {
   contacts: Contact[]
   initialTo?: string
   initialTopic?: string
   initialKind?: string
+  initialSender?: string
 }) {
   const reachable = contacts.filter((c) => c.phone && c.whatsapp)
   const [kind, setKind] = useState<Kind>(KINDS.some((x) => x.id === initialKind) ? (initialKind as Kind) : 'inquiry')
   const k = KINDS.find((x) => x.id === kind)!
   const options = reachable.filter((c) => !k.allowed || k.allowed.includes(c.id))
   const [to, setTo] = useState(initialTo && reachable.some((c) => c.id === initialTo) ? initialTo : k.defaultTo)
-  const [sender, setSender] = useState(SENDERS[0])
+  const [sender, setSender] = useState(initialSender && SENDERS.includes(initialSender) ? initialSender : SENDERS[0])
   const [grade, setGrade] = useState('')
   const [topic, setTopic] = useState(initialTopic ?? '')
   const [body, setBody] = useState('')
