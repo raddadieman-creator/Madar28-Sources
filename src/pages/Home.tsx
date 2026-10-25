@@ -84,27 +84,12 @@ export default function Home() {
 
   return (
     <div className="space-y-14 md:space-y-16">
-      {/* أعلى الصفحة: العلم والدعاء، ثم الإعلانات دائمًا، ثم روابط المنصات */}
+      {/* أعلى الصفحة: العلم والدعاء، ثم الإعلانات المهمة فقط (featured: true) كالدوام والمواعيد */}
       <div className="space-y-5">
         <VerseFlagCard />
         {featured.map((a) => (
           <FeaturedAnnouncement key={a.id} a={a} />
         ))}
-        <section aria-labelledby="ann-title">
-          <SectionTitle id="ann-title" title="الإعلانات" />
-          {!anns ? (
-            <Skeleton className="h-64" />
-          ) : announcements.length ? (
-            <div className="space-y-2 rounded-3xl bg-white p-2 ring-1 ring-lav-100">
-              {announcements.map((a) => (
-                <AnnouncementItem key={a.id} a={a} />
-              ))}
-            </div>
-          ) : (
-            <EmptyState title="لا توجد إعلانات حالية" />
-          )}
-        </section>
-        <OfficialLinksStrip />
       </div>
 
       {/* البطل: لوحة خزامى بتدرج هادئ، والبحث في قلبها، وشعار المدرسة في قوس */}
@@ -173,6 +158,8 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <OfficialLinksStrip />
 
       {/* اللوحات الثلاث: أدلة، إجراءات، تواصل */}
       <section aria-label="أقسام المنصة" className="grid gap-4 md:grid-cols-3">
@@ -253,8 +240,23 @@ export default function Home() {
         </div>
       </section>
 
-      {/* المناسبات */}
-      <div>
+      {/* بقية الإعلانات، ومقابلها المناسبات القادمة */}
+      <div className="grid gap-8 lg:grid-cols-2 lg:gap-6">
+        <section aria-labelledby="ann-title">
+          <SectionTitle id="ann-title" title="الإعلانات" />
+          {!anns ? (
+            <Skeleton className="h-64" />
+          ) : announcements.length ? (
+            <div className="space-y-2 rounded-3xl bg-white p-2 ring-1 ring-lav-100">
+              {announcements.map((a) => (
+                <AnnouncementItem key={a.id} a={a} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="لا توجد إعلانات حالية" />
+          )}
+        </section>
+
         <section aria-labelledby="events-title">
           <SectionTitle
             id="events-title"

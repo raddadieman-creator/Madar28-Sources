@@ -41,6 +41,7 @@ export const formatHijri = (date: Date, withWeekday = false) =>
     .replace(/\s*هـ$/, '') + ' هـ'
 
 export const hijriDay = (date: Date) => safeFormat(HIJRI_CAL, { day: 'numeric' }, date)
+export const hijriMonth = (date: Date) => safeFormat(HIJRI_CAL, { month: 'long' }, date)
 export const hijriMonthYear = (date: Date) => safeFormat(HIJRI_CAL, { month: 'long', year: 'numeric' }, date).replace(/\s*هـ$/, '')
 export const gregorianMonthYear = (date: Date) => safeFormat(GREG_CAL, { month: 'long', year: 'numeric' }, date)
 export const shortGregorian = (date: Date) => safeFormat(GREG_CAL, { day: 'numeric', month: 'short' }, date)

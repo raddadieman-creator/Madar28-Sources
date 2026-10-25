@@ -14,8 +14,8 @@ export function AnnouncementItem({ a }: { a: Announcement }) {
             مثبّت
           </span>
         )}
-        <time dateTime={a.date} title={formatHijri(d)}>
-          {formatGregorian(d)}
+        <time dateTime={a.date} title={formatGregorian(d)}>
+          {formatHijri(d)}
         </time>
         <span className="rounded-full bg-sage-50 px-2 py-0.5 text-sage-700">{a.audience}</span>
         <DraftBadge status={a.status} />

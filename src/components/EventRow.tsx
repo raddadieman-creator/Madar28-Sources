@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import { eventCategoryStyle } from '../data/events'
-import { formatHijri, formatTime, hijriDay, monthShort, parseDate, relativeDays } from '../lib/dates'
+import { formatGregorian, formatTime, hijriDay, hijriMonth, parseDate, relativeDays } from '../lib/dates'
 import { eventState } from '../services/contentService'
 import type { SchoolEvent } from '../types/content'
 import { DraftBadge } from './ui/primitives'
 
-/** صف فعالية: كتلة التاريخ (ميلادي + هجري) ثم التفاصيل */
+/** صف فعالية: كتلة التاريخ الهجري ثم التفاصيل، والميلادي تحت العنوان */
 export function EventRow({ ev, compact = false }: { ev: SchoolEvent; compact?: boolean }) {
   const start = parseDate(ev.start)
   const state = eventState(ev)
@@ -20,9 +20,8 @@ export function EventRow({ ev, compact = false }: { ev: SchoolEvent; compact?: b
           state === 'current' ? 'bg-sage-500 text-white' : 'bg-lav-50 text-ink-800'
         }`}
       >
-        <span className="text-xl font-semibold leading-none">{start.getDate()}</span>
-        <span className="mt-1 text-xs">{monthShort(start)}</span>
-        <span className={`mt-1 text-[10px] ${state === 'current' ? 'text-white/85' : 'text-ink-400'}`}>{hijriDay(start)} هـ</span>
+        <span className="text-xl font-semibold leading-none">{hijriDay(start)}</span>
+        <span className="mt-1 px-1 text-[11px] leading-4">{hijriMonth(start)}</span>
       </div>
       <div className="min-w-0 flex-1 py-0.5">
         <div className="mb-1 flex flex-wrap items-center gap-1.5 text-xs">
@@ -37,7 +36,7 @@ export function EventRow({ ev, compact = false }: { ev: SchoolEvent; compact?: b
         <h3 className="text-[15px] font-semibold group-hover:text-lav-800">{ev.title}</h3>
         {!compact && <p className="mt-0.5 line-clamp-2 text-sm text-ink-600">{ev.description}</p>}
         <p className="mt-1 text-xs text-ink-400">
-          {formatHijri(start)}
+          {formatGregorian(start)}
           {ev.time && ` — ${formatTime(ev.time)}`}
         </p>
       </div>
