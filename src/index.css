@@ -154,3 +154,17 @@
   from { opacity: 0; transform: translateY(6px) scale(.96); }
   to { opacity: 1; transform: none; }
 }
+
+/* علم المملكة يرفرف على سارية */
+.flag-mast { position: relative; direction: ltr; aspect-ratio: 4 / 3.7; }
+.flag-mast__pole { position: absolute; left: 0; top: 4%; bottom: 0; width: 4%; min-width: 4px; border-radius: 9999px;
+  background: linear-gradient(90deg, #8d9399 0%, #f4f6f7 45%, #b9bec3 70%, #7b8187 100%); }
+.flag-mast__finial { position: absolute; left: -1.5%; top: 0; width: 7%; min-width: 7px; aspect-ratio: 1; border-radius: 9999px;
+  background: radial-gradient(circle at 35% 35%, #fff6d6, #d4af37 55%, #8a6d1d); }
+.flag-wave { position: absolute; left: 4%; right: 0; top: 6%; display: flex; aspect-ratio: 4 / 3; filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.3)); }
+.flag-wave > span { flex: 1 1 0; height: 100%; animation: flag-wave 2.4s ease-in-out infinite; will-change: transform; }
+@keyframes flag-wave {
+  0%, 100% { transform: translateY(0); filter: brightness(1); }
+  50% { transform: translateY(var(--amp, 6%)); filter: brightness(0.85); }
+}
+@media (prefers-reduced-motion: reduce) { .flag-wave > span { animation: none; } }

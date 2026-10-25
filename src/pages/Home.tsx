@@ -6,9 +6,11 @@ import { RushdBot } from '../components/rushd/RushdBot'
 import { useRushd } from '../components/rushd/RushdContext'
 import { SearchBox } from '../components/SearchBox'
 import { EmptyState, SectionTitle, Skeleton } from '../components/ui/primitives'
-import { officialLinks, telegramGroup } from '../data/links'
+import { telegramGroup } from '../data/links'
 import { ValueCard } from '../components/ValueCard'
 import { FeaturedAnnouncement } from '../components/FeaturedAnnouncement'
+import { VerseFlagCard } from '../components/VerseFlagCard'
+import { OfficialLinksStrip } from '../components/OfficialLinksStrip'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { formatGregorian, formatHijri, startOfToday } from '../lib/dates'
@@ -82,14 +84,28 @@ export default function Home() {
 
   return (
     <div className="space-y-14 md:space-y-16">
-      {/* الإعلانات البارزة أعلى الصفحة */}
-      {featured.length > 0 && (
-        <div className="space-y-4">
-          {featured.map((a) => (
-            <FeaturedAnnouncement key={a.id} a={a} />
-          ))}
-        </div>
-      )}
+      {/* أعلى الصفحة: العلم والدعاء، ثم الإعلانات دائمًا، ثم روابط المنصات */}
+      <div className="space-y-5">
+        <VerseFlagCard />
+        {featured.map((a) => (
+          <FeaturedAnnouncement key={a.id} a={a} />
+        ))}
+        <section aria-labelledby="ann-title">
+          <SectionTitle id="ann-title" title="الإعلانات" />
+          {!anns ? (
+            <Skeleton className="h-64" />
+          ) : announcements.length ? (
+            <div className="space-y-2 rounded-3xl bg-white p-2 ring-1 ring-lav-100">
+              {announcements.map((a) => (
+                <AnnouncementItem key={a.id} a={a} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState title="لا توجد إعلانات حالية" />
+          )}
+        </section>
+        <OfficialLinksStrip />
+      </div>
 
       {/* البطل: لوحة خزامى بتدرج هادئ، والبحث في قلبها، وشعار المدرسة في قوس */}
       <section
@@ -199,23 +215,6 @@ export default function Home() {
         ))}
       </section>
 
-      {/* المنصات الرسمية */}
-      <section aria-label="المنصات الرسمية" className="-mt-6 flex flex-wrap items-center gap-2 md:-mt-8">
-        <span className="text-sm text-ink-500">منصات رسمية:</span>
-        {Object.values(officialLinks).map((l) => (
-          <a
-            key={l.url}
-            href={l.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={l.note}
-            className="inline-flex items-center gap-1.5 rounded-full bg-white px-3.5 py-1.5 text-sm font-medium text-ink-800 ring-1 ring-lav-100 hover:ring-lav-300"
-          >
-            {l.label}
-            <ExternalLink className="h-3.5 w-3.5 text-ink-300" aria-hidden="true" />
-          </a>
-        ))}
-      </section>
 
       {/* رُشد */}
       <section
@@ -254,23 +253,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* الإعلانات والمناسبات */}
-      <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-8">
-        <section aria-labelledby="ann-title">
-          <SectionTitle id="ann-title" title="أحدث الإعلانات" />
-          {!anns ? (
-            <Skeleton className="h-64" />
-          ) : announcements.length ? (
-            <div className="space-y-2 rounded-3xl bg-white p-2 ring-1 ring-lav-100">
-              {announcements.map((a) => (
-                <AnnouncementItem key={a.id} a={a} />
-              ))}
-            </div>
-          ) : (
-            <EmptyState title="لا توجد إعلانات حالية" />
-          )}
-        </section>
-
+      {/* المناسبات */}
+      <div>
         <section aria-labelledby="events-title">
           <SectionTitle
             id="events-title"

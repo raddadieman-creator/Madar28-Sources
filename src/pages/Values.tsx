@@ -1,5 +1,6 @@
 import { BookHeart, Gem, HeartHandshake, School, Target, UserRoundCheck } from 'lucide-react'
 import { SourceLink } from '../components/SourceLink'
+import { ValueIllustration } from '../components/ValueIllustration'
 import { Icon } from '../components/ui/Icon'
 import { PageHeader, Skeleton } from '../components/ui/primitives'
 import { useContent } from '../hooks/useContent'
@@ -66,7 +67,23 @@ export default function Values() {
               <figcaption className="text-xs text-gold-700">[{v.quote.ref}]</figcaption>
             </figure>
           )}
+          {v.saying && (
+            <figure className="mx-auto mt-3 max-w-xl">
+              <blockquote className="text-lg font-semibold leading-9 text-ink-800">«{v.saying.text}»</blockquote>
+              <figcaption className="text-xs text-gold-700">
+                {v.saying.url ? (
+                  <a href={v.saying.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">{v.saying.ref}</a>
+                ) : v.saying.ref}
+              </figcaption>
+            </figure>
+          )}
           <p className="mx-auto mt-3 max-w-xl text-[15px] leading-8 text-ink-600">{v.meaning}</p>
+          {v.illustration && (
+            <div className="mx-auto mt-4 flex max-w-xl flex-col items-center gap-3 rounded-2xl bg-white/80 p-4 ring-1 ring-gold-100 sm:flex-row sm:text-start">
+              <ValueIllustration name={v.illustration} className="h-28 w-44 shrink-0" />
+              {v.note && <p className="text-[15px] leading-8 text-ink-700">{v.note}</p>}
+            </div>
+          )}
           {v.officialSource && (
             <div className="mt-3 flex justify-center">
               <SourceLink source={v.officialSource} />

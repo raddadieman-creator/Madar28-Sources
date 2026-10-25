@@ -31,7 +31,7 @@ export function Footer() {
       <div className="mt-6 flex flex-wrap items-center gap-3 border-t border-lav-100 pt-5">
         <MadarIcon size={28} />
         <MadarName size="sm" />
-        <span className="text-xs text-ink-400">{school.tagline} — نسخة تجريبية، والمحتوى المعلَّم «تجريبي» بانتظار اعتماد المدرسة.</span>
+        <span className="text-xs text-ink-400">{school.tagline}</span>
       </div>
     </footer>
   )

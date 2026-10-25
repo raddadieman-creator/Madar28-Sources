@@ -5,7 +5,6 @@ import winterPoster from '../assets/winter-schedule-1448.webp'
  * الإعلانات.
  * - pinned: true يثبت الإعلان أعلى القائمة في الصفحة الرئيسية.
  * - expires: بعد هذا التاريخ يختفي الإعلان من العرض تلقائيًا.
- * - الإعلانات الحالية أمثلة تجريبية (draft) تُستبدل بإعلانات المدرسة.
  */
 export const announcements: Announcement[] = [
   {
@@ -28,13 +27,22 @@ export const announcements: Announcement[] = [
     status: 'approved',
   },
   {
+    id: 'bullying-workshop-1448',
+    title: 'ورشة برنامج «صديقتي آمنة» للوقاية من التنمر',
+    body: 'تُقام ورشة البرنامج يومي الأربعاء والخميس 28 و29 أكتوبر 2026، لطالبات الصف الثالث المتوسط، والطالبات المنضبطات، والمشاركات في البرنامج.',
+    date: '2026-10-25',
+    expires: '2026-10-29',
+    audience: 'الطالبات',
+    pinned: true,
+    status: 'approved',
+  },
+  {
     id: 'portal-launch',
-    title: 'إطلاق «مدار 28» في نسخته التجريبية',
-    body: 'يسعدنا أن نشاركك النسخة الأولى من المنصة، ونرحب بملاحظاتك عبر «مركز التواصل» لتطويرها قبل الإطلاق الرسمي.',
+    title: 'إطلاق منصة «مدار 28»',
+    body: 'يسعدنا أن نشاركك المنصة الرقمية للمدرسة، ونرحب بملاحظاتك عبر «مركز التواصل» لتطويرها.',
     date: '2026-10-11',
     audience: 'الجميع',
-    pinned: true,
-    status: 'draft',
+    status: 'approved',
   },
   {
     id: 'update-contacts',
@@ -44,16 +52,7 @@ export const announcements: Announcement[] = [
     expires: '2026-11-30',
     audience: 'أولياء الأمور',
     link: { label: 'نظام نور', url: 'https://noor.moe.gov.sa' },
-    status: 'draft',
-  },
-  {
-    id: 'wellbeing-week',
-    title: 'أسبوع الصحة النفسية المدرسي',
-    body: 'تنفذ الموجهة الطلابية هذا الأسبوع أنشطة قصيرة عن إدارة المشاعر وطلب المساعدة داخل الفصول.',
-    date: '2026-10-10',
-    expires: '2026-10-15',
-    audience: 'الطالبات',
-    status: 'draft',
+    status: 'approved',
   },
   {
     id: 'mawhiba-reminder',
@@ -62,15 +61,6 @@ export const announcements: Announcement[] = [
     date: '2026-10-04',
     audience: 'الطالبات',
     link: { label: 'موقع موهبة', url: 'https://www.mawhiba.sa' },
-    status: 'draft',
-  },
-  {
-    id: 'expired-sample',
-    title: 'إعلان منتهٍ (مثال)',
-    body: 'هذا الإعلان انتهت مدة عرضه، فلا يظهر في القوائم — مثال على الإخفاء التلقائي.',
-    date: '2026-09-01',
-    expires: '2026-09-15',
-    audience: 'الجميع',
-    status: 'draft',
+    status: 'approved',
   },
 ]

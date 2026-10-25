@@ -24,7 +24,7 @@ export async function submitSuggestion(input: SuggestionInput): Promise<SubmitRe
     return {
       ok: false,
       reason: 'not-enabled',
-      message: 'الإرسال غير مفعّل في هذه النسخة التجريبية؛ لم يُحفظ اقتراحك ولم يُرسل.',
+      message: 'الإرسال غير مفعّل في هذه النسخة؛ لم يُحفظ اقتراحك ولم يُرسل.',
     }
   }
   try {

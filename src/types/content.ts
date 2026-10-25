@@ -68,6 +68,12 @@ export interface SchoolValue {
   activity: string
   /** إن كانت القيمة من القيم الست المعتمدة لتقييم السلوك المتميز */
   officialSource?: SourceRef
+  /** عبارة موثّقة إضافية (حديث صحيح) مع تخريجها */
+  saying?: { text: string; ref: string; url?: string }
+  /** تعليق قصير يربط القيمة بحياة الطالبة */
+  note?: string
+  /** رسم توضيحي للقيمة (اسم الرسم في ValueIllustration) */
+  illustration?: string
 }
 
 /* ——— مكتبة الأدلة والأنظمة ——— */

@@ -13,7 +13,7 @@ import type { SchoolValue } from '../types/content'
  * - «النشاط المدرسي» مقترح، يُنفَّذ بعد اعتماده من المدرسة.
  */
 export const valuesConfig = {
-  rotationStart: '2026-08-30',
+  rotationStart: '2026-09-06',
   featuredValueId: '' as string,
 }
 
@@ -110,6 +110,13 @@ export const schoolValues: SchoolValue[] = [
     family: 'تابع مع ابنتك هدفًا صغيرًا واحدًا حتى تنجزه، واحتفل بإنجازه.',
     activity: 'بطاقة «خطوة كل يوم» لمتابعة هدف أسبوعي في الفصل.',
     icon: 'trophy',
+    saying: {
+      text: 'أَحَبُّ الأَعْمَالِ إِلَى اللَّهِ تَعَالَى أَدْوَمُهَا وَإِنْ قَلَّ',
+      ref: 'رواه مسلم (783) عن عائشة رضي الله عنها',
+      url: 'https://dorar.net/h/M1xrYNcd?sims=1',
+    },
+    note: 'القليل الدائم يصنع الفرق: عشرون دقيقة من المذاكرة كل يوم أنفع من ساعات طويلة ليلة الاختبار.',
+    illustration: 'perseverance',
   },
   {
     id: 'moderation',

@@ -8,6 +8,7 @@ import { BottomNav } from './BottomNav'
 import { Footer } from './Footer'
 import { MobileMenu } from './MobileMenu'
 import { SearchOverlay } from './SearchOverlay'
+import { SideContactTab } from '../SideContactTab'
 import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
 
@@ -96,6 +97,7 @@ export function AppLayout() {
       <BottomNav onMore={() => setMenu(true)} />
       <MobileMenu open={menu} onClose={closeMenu} />
       <SearchOverlay open={search} onClose={closeSearch} />
+      <SideContactTab />
 
       {/* زر رُشد العائم للشاشات الكبيرة، مع تحية قصيرة مرة واحدة في الجلسة */}
       {!isOpen && (
