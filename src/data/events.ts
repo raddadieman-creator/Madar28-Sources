@@ -163,15 +163,6 @@ export const events: SchoolEvent[] = [
     status: 'draft',
   },
   {
-    id: 'holiday-sample',
-    title: 'إجازة نهاية أسبوع مطولة',
-    start: '2026-11-19',
-    category: 'إجازات',
-    description: 'موعد تجريبي للتوضيح فقط؛ تُعتمد الإجازات من التقويم الدراسي الرسمي لوزارة التعليم.',
-    audience: ['الجميع'],
-    status: 'draft',
-  },
-  {
     id: 'science-fair',
     title: 'معرض المشاريع البحثية',
     start: '2026-11-25',

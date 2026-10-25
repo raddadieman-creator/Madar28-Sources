@@ -1,7 +1,7 @@
-import { BookOpenCheck, ChevronLeft, ExternalLink, Headset, MessageCircle } from 'lucide-react'
+import { BookOpenCheck, ChevronLeft, ExternalLink, FileText, Headset, MessageCircle } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { PageHeader } from '../components/ui/primitives'
-import { academicAudiences, academicServices, type AcademicAudience } from '../data/academic'
+import { ORG_GUIDE_URL, academicAudiences, academicServices, staffGuide, teacherGuide, type AcademicAudience, type GuideSection } from '../data/academic'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { content } from '../services/contentService'
@@ -11,6 +11,7 @@ export default function Academic() {
   useTitle('الشؤون التعليمية')
   const [params, setParams] = useSearchParams()
   const { data: contacts } = useContent(content.contacts)
+  const view = (['service', 'teacher', 'staff'].includes(params.get('view') ?? '') ? params.get('view') : 'service') as 'service' | 'teacher' | 'staff'
   const tab = (academicAudiences.find((a) => a.id === params.get('for'))?.id ?? 'student') as AcademicAudience
   const audience = academicAudiences.find((a) => a.id === tab)!
   const vice = contacts?.find((c) => c.id === 'vice')
@@ -26,6 +27,29 @@ export default function Academic() {
         icon={<BookOpenCheck className="h-6 w-6" />}
       />
 
+      <nav aria-label="أقسام الشؤون التعليمية" className="mb-6 grid grid-cols-3 gap-2 rounded-2xl bg-white p-1.5 ring-1 ring-lav-100">
+        {[
+          { id: 'service', label: 'خدمة المستفيد' },
+          { id: 'teacher', label: 'دليل المعلمة' },
+          { id: 'staff', label: 'دليل الإدارية' },
+        ].map((v) => (
+          <button
+            key={v.id}
+            type="button"
+            aria-current={view === v.id ? 'page' : undefined}
+            onClick={() => setParams({ view: v.id }, { replace: true })}
+            className={`rounded-xl px-3 py-2.5 text-sm font-bold transition ${view === v.id ? 'bg-lav-600 text-white shadow-soft' : 'text-ink-700 hover:bg-lav-50'}`}
+          >
+            {v.label}
+          </button>
+        ))}
+      </nav>
+
+      {view === 'teacher' && <GuideView sections={teacherGuide} requestFor="teacher" />}
+      {view === 'staff' && <GuideView sections={staffGuide} requestFor="staff" />}
+      {view === 'service' && (
+      <>
+
       <div role="tablist" aria-label="المستفيد" className="mb-5 flex flex-wrap gap-2">
         {academicAudiences.map((a) => (
           <button
@@ -33,7 +57,7 @@ export default function Academic() {
             type="button"
             role="tab"
             aria-selected={tab === a.id}
-            onClick={() => setParams({ for: a.id }, { replace: true })}
+            onClick={() => setParams({ view: 'service', for: a.id }, { replace: true })}
             className={`rounded-full px-4 py-2 text-sm font-semibold ring-1 transition ${
               tab === a.id ? 'bg-lav-600 text-white ring-lav-600' : 'bg-white text-ink-700 ring-lav-100 hover:ring-lav-300'
             }`}
@@ -90,6 +114,47 @@ export default function Academic() {
           <p className="px-1 text-xs leading-6 text-ink-500">لا تُكتب في الطلب أرقام هوية أو بيانات صحية.</p>
         </aside>
       </div>
+      </>
+      )}
     </>
+  )
+}
+
+/** عرض دليل (المعلمة أو الإدارية) مع أرقام صفحات الدليل التنظيمي */
+function GuideView({ sections, requestFor }: { sections: GuideSection[]; requestFor: AcademicAudience }) {
+  return (
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_19rem]">
+      <div className="space-y-3">
+        {sections.map((sec) => (
+          <section key={sec.title} className="rounded-2xl bg-white p-5 ring-1 ring-lav-100">
+            <h2 className="text-lg font-bold text-ink-900">{sec.title}</h2>
+            <ul className="mt-2 space-y-2">
+              {sec.points.map((pt) => (
+                <li key={pt.text} className="flex gap-2 text-[15px] leading-7 text-ink-700">
+                  <span className="mt-[0.7rem] h-1.5 w-1.5 shrink-0 rounded-full bg-lav-500" aria-hidden="true" />
+                  <span>
+                    {pt.text}
+                    {pt.page && <span className="ms-1 whitespace-nowrap text-xs text-ink-500">(ص {pt.page})</span>}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+      <aside className="space-y-3 lg:sticky lg:top-24 lg:self-start">
+        <a href={ORG_GUIDE_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-lav-100 hover:ring-lav-300">
+          <FileText className="h-6 w-6 shrink-0 text-lav-600" aria-hidden="true" />
+          <span className="flex-1">
+            <span className="block font-bold text-ink-900">الدليل التنظيمي لمدارس التعليم العام</span>
+            <span className="block text-xs text-ink-500">وزارة التعليم، 1442هـ</span>
+          </span>
+          <ExternalLink className="h-4 w-4 text-ink-400" aria-hidden="true" />
+        </a>
+        <Link to={`/academic?view=service&for=${requestFor}`} className="btn-primary w-full justify-center">
+          خدمة المستفيد: تقديم طلب
+        </Link>
+      </aside>
+    </div>
   )
 }
