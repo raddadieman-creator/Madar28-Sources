@@ -88,7 +88,7 @@ export interface SourceRef {
   page?: number
 }
 
-export type GuideTopic = 'السلوك والمواظبة' | 'التوجيه الطلابي' | 'الأسرة والنمو' | 'التنمر والعنف'
+export type GuideTopic = 'السلوك والمواظبة' | 'التوجيه الطلابي' | 'الأسرة والنمو' | 'التنمر والعنف' | 'دليل المعلمة' | 'دليل الإدارية'
 
 export interface GuideDoc {
   id: string

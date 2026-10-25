@@ -1,10 +1,11 @@
 import { BookOpenCheck, ChevronLeft, ExternalLink, FileText, Headset, MessageCircle } from 'lucide-react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { PageHeader } from '../components/ui/primitives'
-import { ORG_GUIDE_URL, academicAudiences, academicServices, staffGuide, teacherGuide, type AcademicAudience, type GuideSection } from '../data/academic'
+import { academicAudiences, academicServices, staffGuide, teacherGuide, type AcademicAudience, type GuideSection } from '../data/academic'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { content } from '../services/contentService'
+import { library } from '../data/library'
 
 /** الشؤون التعليمية — خدمة المستفيد للطالبة وولي الأمر والمعلمة والإدارية */
 export default function Academic() {
@@ -45,8 +46,8 @@ export default function Academic() {
         ))}
       </nav>
 
-      {view === 'teacher' && <GuideView sections={teacherGuide} requestFor="teacher" />}
-      {view === 'staff' && <GuideView sections={staffGuide} requestFor="staff" />}
+      {view === 'teacher' && <GuideView sections={teacherGuide} requestFor="teacher" topic="دليل المعلمة" />}
+      {view === 'staff' && <GuideView sections={staffGuide} requestFor="staff" topic="دليل الإدارية" />}
       {view === 'service' && (
       <>
 
@@ -121,7 +122,8 @@ export default function Academic() {
 }
 
 /** عرض دليل (المعلمة أو الإدارية) مع أرقام صفحات الدليل التنظيمي */
-function GuideView({ sections, requestFor }: { sections: GuideSection[]; requestFor: AcademicAudience }) {
+function GuideView({ sections, requestFor, topic }: { sections: GuideSection[]; requestFor: AcademicAudience; topic: 'دليل المعلمة' | 'دليل الإدارية' }) {
+  const docs = library.filter((d) => d.topics.includes(topic))
   return (
     <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_19rem]">
       <div className="space-y-3">
@@ -143,14 +145,23 @@ function GuideView({ sections, requestFor }: { sections: GuideSection[]; request
         ))}
       </div>
       <aside className="space-y-3 lg:sticky lg:top-24 lg:self-start">
-        <a href={ORG_GUIDE_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-2xl bg-white p-4 ring-1 ring-lav-100 hover:ring-lav-300">
-          <FileText className="h-6 w-6 shrink-0 text-lav-600" aria-hidden="true" />
-          <span className="flex-1">
-            <span className="block font-bold text-ink-900">الدليل التنظيمي لمدارس التعليم العام</span>
-            <span className="block text-xs text-ink-500">وزارة التعليم، 1442هـ</span>
-          </span>
-          <ExternalLink className="h-4 w-4 text-ink-400" aria-hidden="true" />
-        </a>
+        <section aria-label="أدلة للرجوع إليها" className="rounded-2xl bg-white p-3 ring-1 ring-lav-100">
+          <h2 className="px-2 pb-2 pt-1 text-sm font-bold text-ink-900">أدلة رسمية للرجوع إليها</h2>
+          <ul className="space-y-1">
+            {docs.map((d) => (
+              <li key={d.id}>
+                <Link to={`/library/${d.id}`} className="flex items-center gap-3 rounded-xl p-2 hover:bg-lav-50">
+                  <FileText className="h-5 w-5 shrink-0 text-lav-600" aria-hidden="true" />
+                  <span className="flex-1">
+                    <span className="block text-sm font-semibold leading-6 text-ink-900">{d.title}</span>
+                    <span className="block text-xs text-ink-500">{d.issuer.split('—')[0].trim()}، {d.year}</span>
+                  </span>
+                  <ChevronLeft className="h-4 w-4 shrink-0 text-ink-400" aria-hidden="true" />
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
         <Link to={`/academic?view=service&for=${requestFor}`} className="btn-primary w-full justify-center">
           خدمة المستفيد: تقديم طلب
         </Link>

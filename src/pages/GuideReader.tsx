@@ -102,12 +102,13 @@ export default function GuideReader() {
           <p className="flex flex-wrap items-center gap-x-2 gap-y-1 border-t border-lav-100 bg-lav-25 px-4 py-2.5 text-xs text-ink-600">
             لا يظهر الملف؟
             <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-lav-700 underline underline-offset-4">
-              افتحوه مباشرة من {local ? 'المنصة' : `موقع ${doc.issuer.split('—')[0].trim()}`}
+              افتحي الملف مباشرة من {local ? 'المنصة' : `موقع ${doc.issuer.split('—')[0].trim()}`}
             </a>
           </p>
         </section>
 
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          {doc.toc.length > 0 && (
           <section aria-labelledby="toc-title" className="rounded-3xl bg-white p-4 ring-1 ring-lav-100">
             <h2 id="toc-title" className="mb-2 flex items-center gap-2 text-sm font-bold">
               <ListTree className="h-4 w-4 text-lav-600" aria-hidden="true" />
@@ -131,6 +132,7 @@ export default function GuideReader() {
             </ol>
             {!local && <p className="mt-2 text-[11px] leading-5 text-ink-400">اختيار عنصر يفتح الملف الرسمي عند صفحته في نافذة مستقلة.</p>}
           </section>
+          )}
 
           {doc.highlights?.length ? (
             <section aria-labelledby="hl-title" className="rounded-3xl bg-sage-50 p-4 ring-1 ring-sage-100">
