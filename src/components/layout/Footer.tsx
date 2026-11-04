@@ -19,6 +19,7 @@ export function Footer() {
           <li><Link to="/voice" className="hover:text-lav-700">صوتك مسموع</Link></li>
           <li><Link to="/contact" className="hover:text-lav-700">مركز التواصل</Link></li>
           <li><Link to="/privacy" className="hover:text-lav-700">الخصوصية</Link></li>
+          <li><Link to="/staff" className="font-semibold text-lav-700 hover:text-lav-800">لوحة المدرسة</Link></li>
           {school.mapUrl && (
             <li>
               <a href={school.mapUrl} target="_blank" rel="noopener noreferrer" className="hover:text-lav-700">
