@@ -1,4 +1,4 @@
-import { lazy } from 'react'
+import { lazy, Suspense } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './components/layout/AppLayout'
 import { RushdProvider } from './components/rushd/RushdContext'
@@ -7,6 +7,7 @@ import Home from './pages/Home'
 // تحميل الصفحات عند الحاجة فقط لتسريع فتح المنصة
 const About = lazy(() => import('./pages/About'))
 const Services = lazy(() => import('./pages/Services'))
+const Academic = lazy(() => import('./pages/Academic'))
 const Guidance = lazy(() => import('./pages/Guidance'))
 const GuidanceTopic = lazy(() => import('./pages/GuidanceTopic'))
 const Mawhiba = lazy(() => import('./pages/Mawhiba'))
@@ -23,7 +24,8 @@ const GuideReader = lazy(() => import('./pages/GuideReader'))
 const Procedures = lazy(() => import('./pages/Procedures'))
 const Values = lazy(() => import('./pages/Values'))
 const Nafs = lazy(() => import('./pages/Nafs'))
-const Academic = lazy(() => import('./pages/Academic'))
+// لوحة المدرسة (بديلة تطبيق الفلاتر): خارج تخطيط الموقع العام
+const StaffApp = lazy(() => import('./pages/staff/StaffApp'))
 
 /**
  * HashRouter يضمن عمل الروابط وتحديث الصفحة مباشرة على GitHub Pages
@@ -35,6 +37,7 @@ export default function App() {
     <HashRouter>
       <RushdProvider>
         <Routes>
+          <Route path="staff/*" element={<Suspense fallback={null}><StaffApp /></Suspense>} />
           <Route element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="about" element={<About />} />
@@ -43,8 +46,8 @@ export default function App() {
             <Route path="procedures" element={<Procedures />} />
             <Route path="values" element={<Values />} />
             <Route path="nafs" element={<Nafs />} />
-            <Route path="academic" element={<Academic />} />
             <Route path="services" element={<Services />} />
+            <Route path="academic" element={<Academic />} />
             <Route path="guidance" element={<Guidance />} />
             <Route path="guidance/:id" element={<GuidanceTopic />} />
             <Route path="mawhiba" element={<Mawhiba />} />

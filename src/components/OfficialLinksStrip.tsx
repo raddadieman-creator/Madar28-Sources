@@ -1,4 +1,4 @@
-import { ChevronLeft, ExternalLink } from 'lucide-react'
+import { ChevronLeft, ExternalLink } from './ui/hand'
 import { Link } from 'react-router-dom'
 import { officialLinks } from '../data/links'
 

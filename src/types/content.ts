@@ -236,13 +236,13 @@ export interface Announcement {
   footer?: string
   /** صورة مرفقة اختيارية (تعميم المدرسة) */
   image?: { src: string; alt: string }
+  /** يظهر في أعلى الصفحة الرئيسية تحت العلم */
+  featured?: boolean
   date: string
   /** تاريخ انتهاء العرض (اختياري) */
   expires?: string
   audience: Audience
   pinned?: boolean
-  /** يظهر في أعلى الصفحة الرئيسية بدل قائمة الإعلانات */
-  featured?: boolean
   link?: ExternalLink
   status: ContentStatus
 }

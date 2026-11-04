@@ -10,7 +10,7 @@ import {
   Lightbulb,
   MonitorPlay,
   Target,
-} from 'lucide-react'
+} from '../components/ui/hand'
 import { Link } from 'react-router-dom'
 import { PageHeader } from '../components/ui/primitives'
 import { useTitle } from '../hooks/useTitle'

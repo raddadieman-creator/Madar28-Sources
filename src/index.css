@@ -24,9 +24,13 @@
     outline-offset: 2px;
     border-radius: 0.5rem;
   }
+  /* «تقليل الحركة»: حركات الموقع العامة تقصر وتجري مرة واحدة (بلا iteration-count كانت الحركات الدائمة تعيد
+     نفسها آلاف المرات في الثانية فيرتجف رُشد). رُشد وتحيته وظهور الأقسام خارج هذا عمدًا (Abood, 2026-10-22: يراه الجميع). */
   @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *:not([class*='rushd']):not([class*='flag-wave']):not(.rv):not(.bubble-in):not(.typing-dot),
+    *::before, *::after {
       animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
@@ -138,6 +142,107 @@
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
 }
+/* علم المملكة يرفرف: شرائح عمودية من الصورة نفسها تتموّج بتأخير متدرّج فتسري الموجة من السارية،
+   بتحريك transform وopacity فقط (خفيف على الجوال). لا قلب ولا عكس ولا تنكيس: الشرائح تتحرك عموديًا فقط. */
+.flag-wave-strip {
+  animation: flag-wave 2.6s ease-in-out infinite;
+  will-change: transform;
+}
+.flag-wave-shade {
+  animation: flag-wave-shade 2.6s ease-in-out infinite;
+}
+@keyframes flag-wave {
+  0%, 100% { transform: translateY(calc(var(--a) * -4px)); }
+  50% { transform: translateY(calc(var(--a) * 4px)); }
+}
+@keyframes flag-wave-shade {
+  0%, 100% { opacity: 0; }
+  50% { opacity: calc(var(--a) * 0.32); }
+}
+.leaders-in { animation: leaders-in 0.9s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes leaders-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+/* رُشد في الرئيسية يتجوّل في مداره */
+.rushd-wander {
+  animation: rushd-wander 14s ease-in-out infinite;
+}
+@keyframes rushd-wander {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(22px, -10px); }
+  50% { transform: translate(0, -16px); }
+  75% { transform: translate(-22px, -8px); }
+}
+/* مشاعر رُشد وإيموتاته (RushdBot mood) — حركات ناعمة بمنحنيات جيبية */
+.rushd-hop, .rushd-sway, .rushd-droop, .rushd-talk, .rushd-pulse, .rushd-wave-big, .rushd-antenna-fast,
+.rushd-heart, .rushd-spark, .rushd-drop, .rushd-dot, .rushd-breathe, .rushd-shadow, .rushd-arm, .rushd-look { transform-box: view-box; }
+.rushd-breathe { animation: rushd-breathe 3.6s cubic-bezier(.45,0,.55,1) infinite; }
+@keyframes rushd-breathe { 0%, 100% { transform: translateY(0) scale(1, 1); } 50% { transform: translateY(-1.2px) scale(1.012, .99); } }
+.rushd-shadow { animation: rushd-shadow 3.6s cubic-bezier(.45,0,.55,1) infinite; }
+@keyframes rushd-shadow { 0%, 100% { transform: scaleX(1); opacity: .12; } 50% { transform: scaleX(.92); opacity: .08; } }
+.rushd-arm { animation: rushd-arm 3.6s cubic-bezier(.45,0,.55,1) infinite; }
+@keyframes rushd-arm { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(5deg); } }
+.rushd-look { animation: rushd-look 2.4s cubic-bezier(.45,0,.55,1) infinite; }
+@keyframes rushd-look { 0%, 100% { transform: translate(0, 0); } 35% { transform: translate(1.2px, -1.2px); } 70% { transform: translate(-1px, -1px); } }
+.rushd-hop { animation: rushd-hop 0.9s cubic-bezier(.3,1.6,.5,1) infinite; }
+@keyframes rushd-hop {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  15% { transform: translateY(1px) scale(1.05, .94); }
+  45% { transform: translateY(-5px) scale(.97, 1.04); }
+  70% { transform: translateY(0) scale(1.02, .98); }
+}
+.rushd-sway { animation: rushd-sway 2.4s ease-in-out infinite; }
+@keyframes rushd-sway { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+.rushd-droop { animation: rushd-droop 2.6s ease-in-out infinite; }
+@keyframes rushd-droop { 0%, 100% { transform: translateY(1px) rotate(-3deg); } 50% { transform: translateY(2.5px) rotate(-5deg); } }
+.rushd-talk { animation: rushd-talk 0.26s ease-in-out infinite alternate; }
+@keyframes rushd-talk { from { transform: scaleY(.35); } to { transform: scaleY(1.25); } }
+.rushd-pulse { animation: rushd-pulse 0.7s ease-in-out infinite; }
+@keyframes rushd-pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+.rushd-wave-big { animation: rushd-wave-big 0.7s ease-in-out infinite; }
+@keyframes rushd-wave-big { 0%, 100% { transform: rotate(-22deg); } 50% { transform: rotate(14deg); } }
+.rushd-antenna-fast { animation: rushd-glow 0.8s ease-in-out infinite; }
+.rushd-heart { animation: rushd-heart 1.6s ease-out infinite; opacity: 0; }
+@keyframes rushd-heart {
+  0% { transform: translateY(6px) scale(.4); opacity: 0; }
+  25% { opacity: 1; }
+  100% { transform: translateY(-14px) scale(1.1); opacity: 0; }
+}
+.rushd-spark { animation: rushd-spark 1.2s ease-in-out infinite; }
+@keyframes rushd-spark { 0%, 100% { transform: scale(.3) rotate(0deg); opacity: .2; } 50% { transform: scale(1.15) rotate(45deg); opacity: 1; } }
+.rushd-drop { animation: rushd-drop 1.8s ease-in infinite; }
+@keyframes rushd-drop { 0% { transform: translateY(-2px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(9px); opacity: 0; } }
+.rushd-dot { animation: rushd-dot 1s ease-in-out infinite; }
+@keyframes rushd-dot { 0%, 100% { transform: translateY(0); opacity: .4; } 40% { transform: translateY(-2.2px); opacity: 1; } }
+
+/* تحية رُشد (RushdIntro): يطلّ من حافة الشاشة (اليسار في العربية)، يتراجع خجلًا، يمشي للداخل، يلوّح، ينسحب */
+.rushd-intro { animation: rushd-intro 6.6s cubic-bezier(.45,0,.55,1) both; transform-origin: 0% 100%; }
+@keyframes rushd-intro {
+  0% { transform: translateX(-110%) rotate(0deg); }
+  10% { transform: translateX(-62%) rotate(16deg); }
+  22% { transform: translateX(-60%) rotate(12deg); }
+  27% { transform: translateX(-78%) rotate(16deg); }
+  34% { transform: translateX(-60%) rotate(8deg); }
+  49% { transform: translateX(14px) rotate(0deg); }
+  88% { transform: translateX(14px) rotate(0deg); }
+  100% { transform: translateX(-120%) rotate(-6deg); }
+}
+.rushd-walk { display: inline-block; animation: rushd-walk .34s ease-in-out infinite alternate; }
+@keyframes rushd-walk { from { transform: translateY(0) rotate(-3deg); } to { transform: translateY(-5px) rotate(3deg); } }
+
+/* ظهور ناعم للأقسام والبطاقات عند التمرير (RevealManager في AppLayout يضيف .rv ثم .rv-in) */
+.rv { opacity: 0; transform: translateY(18px); transition: opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1); transition-delay: var(--rv-delay, 0ms); }
+.rv.rv-in { opacity: 1; transform: none; }
+/* لمسة الضغط للأزرار والروابط، ورفع البطاقات عند المرور */
+main a, main button { -webkit-tap-highlight-color: transparent; }
+main a:active, main button:active { transform: scale(.98); }
+.lift { transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s; }
+.lift:hover { transform: translateY(-3px); box-shadow: 0 16px 32px -12px rgba(47, 36, 86, .22); }
+/* الأيقونات المرسومة تهتز قليلًا عند المرور على ما يحويها */
+a:hover > svg, button:hover > svg { animation: hand-wiggle .5s ease-in-out; }
+@keyframes hand-wiggle { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-8deg); } 65% { transform: rotate(6deg); } }
+
 .typing-dot {
   animation: typing 1.1s infinite ease-in-out;
 }
@@ -154,17 +259,3 @@
   from { opacity: 0; transform: translateY(6px) scale(.96); }
   to { opacity: 1; transform: none; }
 }
-
-/* علم المملكة يرفرف على سارية */
-.flag-mast { position: relative; direction: ltr; aspect-ratio: 4 / 3.7; }
-.flag-mast__pole { position: absolute; left: 0; top: 4%; bottom: 0; width: 4%; min-width: 4px; border-radius: 9999px;
-  background: linear-gradient(90deg, #8d9399 0%, #f4f6f7 45%, #b9bec3 70%, #7b8187 100%); }
-.flag-mast__finial { position: absolute; left: -1.5%; top: 0; width: 7%; min-width: 7px; aspect-ratio: 1; border-radius: 9999px;
-  background: radial-gradient(circle at 35% 35%, #fff6d6, #d4af37 55%, #8a6d1d); }
-.flag-wave { position: absolute; left: 4%; right: 0; top: 6%; display: flex; aspect-ratio: 4 / 3; filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.3)); }
-.flag-wave > span { flex: 1 1 0; height: 100%; animation: flag-wave 2.4s ease-in-out infinite; will-change: transform; }
-@keyframes flag-wave {
-  0%, 100% { transform: translateY(0); filter: brightness(1); }
-  50% { transform: translateY(var(--amp, 6%)); filter: brightness(0.85); }
-}
-@media (prefers-reduced-motion: reduce) { .flag-wave > span { animation: none; } }

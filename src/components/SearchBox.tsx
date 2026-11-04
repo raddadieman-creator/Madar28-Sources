@@ -1,4 +1,4 @@
-import { Search, X } from 'lucide-react'
+import { Search, X } from './ui/hand'
 import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useContent } from '../hooks/useContent'

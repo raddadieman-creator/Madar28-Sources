@@ -1,14 +1,15 @@
+import { SideContactTab } from '../SideContactTab'
 import { Suspense, useCallback, useEffect, useState } from 'react'
-import { House } from 'lucide-react'
+import { House } from '../ui/hand'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { RushdPanel } from '../rushd/RushdPanel'
 import { useRushd } from '../rushd/RushdContext'
 import { RushdAvatar } from '../rushd/RushdAvatar'
+import { RushdIntro } from '../rushd/RushdIntro'
 import { BottomNav } from './BottomNav'
 import { Footer } from './Footer'
 import { MobileMenu } from './MobileMenu'
 import { SearchOverlay } from './SearchOverlay'
-import { SideContactTab } from '../SideContactTab'
 import { Sidebar } from './Sidebar'
 import { TopBar } from './TopBar'
 
@@ -29,6 +30,33 @@ function ScrollManager() {
     }
     window.scrollTo({ top: 0 })
   }, [pathname, hash])
+  return null
+}
+
+/**
+ * ظهور ناعم عند التمرير: أقسام الصفحة وبطاقاتها تصعد قليلًا وتظهر حين تدخل الشاشة، متتابعة داخل كل مجموعة.
+ * بلا IntersectionObserver (متصفح قديم) يظهر كل شيء فورًا.
+ */
+function RevealManager() {
+  const { pathname } = useLocation()
+  useEffect(() => {
+    // shown to everyone, «تقليل الحركة» included (Abood, 2026-10-22); only a browser without IntersectionObserver skips it
+    if (!('IntersectionObserver' in window)) return
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('rv-in'); io.unobserve(e.target) }
+    }), { rootMargin: '0px 0px -8% 0px', threshold: 0.08 })
+    const t = window.setTimeout(() => {
+      const els = document.querySelectorAll<HTMLElement>('#main section > *, #main ul > li, #main ol > li')
+      els.forEach((el) => {
+        if (el.classList.contains('rv') || el.closest('[data-no-reveal]')) return
+        const i = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0
+        el.style.setProperty('--rv-delay', `${Math.min(i, 8) * 55}ms`)
+        el.classList.add('rv')
+        io.observe(el)
+      })
+    }, 60)
+    return () => { window.clearTimeout(t); io.disconnect() }
+  }, [pathname])
   return null
 }
 
@@ -70,6 +98,7 @@ export function AppLayout() {
         تخطَّ إلى المحتوى
       </a>
       <ScrollManager />
+      <RevealManager />
       <Sidebar />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar onMenu={() => setMenu(true)} onSearch={() => setSearch(true)} />
@@ -99,14 +128,11 @@ export function AppLayout() {
       <SearchOverlay open={search} onClose={closeSearch} />
       <SideContactTab />
 
-      {/* زر رُشد العائم للشاشات الكبيرة، مع تحية قصيرة مرة واحدة في الجلسة */}
+      {/* تحية رُشد مرة واحدة في الزيارة: يطلّ ويمشي ويلوّح ويقول «مرحبا» */}
+      {!isOpen && <RushdIntro show={hint} onOpen={() => { setHint(false); open() }} />}
+      {/* زر رُشد العائم للشاشات الكبيرة */}
       {!isOpen && (
         <div className="fixed bottom-6 end-6 z-30 hidden flex-col items-end gap-2 lg:flex">
-          {hint && (
-            <p className="bubble-in me-3 max-w-[15rem] rounded-2xl rounded-ee-sm bg-white px-4 py-2.5 text-sm text-ink-700 shadow-lift ring-1 ring-lav-100">
-              أنا رُشد، كيف أساعدك؟
-            </p>
-          )}
           <button
             type="button"
             onClick={() => {

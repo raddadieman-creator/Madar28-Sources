@@ -23,8 +23,8 @@ const MADRASATI = { label: 'منصة مدرستي', url: 'https://schools.madras
 
 export const academicAudiences: { id: AcademicAudience; label: string; sender: string; intro: string }[] = [
   { id: 'student', label: 'الطالبة وولي الأمر', sender: 'ولي أمر', intro: 'الجداول والاختبارات والنتائج، والاستئذان، ومقابلة المعلمات.' },
-  { id: 'teacher', label: 'المعلمة', sender: 'معلمة', intro: 'الجدول وحصص الانتظار، ورصد الدرجات، والاختبارات والخطط الدراسية.' },
-  { id: 'staff', label: 'الإدارية', sender: 'إدارية', intro: 'بيانات الطالبات، وترتيبات الاختبارات، والتقارير التعليمية.' },
+  { id: 'teacher', label: 'المعلمة', sender: 'منسوبة', intro: 'الجدول وحصص الانتظار، ورصد الدرجات، والاختبارات والخطط الدراسية.' },
+  { id: 'staff', label: 'الإدارية', sender: 'منسوبة', intro: 'بيانات الطالبات، وترتيبات الاختبارات، والتقارير التعليمية.' },
 ]
 
 export const academicServices: Record<AcademicAudience, AcademicService[]> = {

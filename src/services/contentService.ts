@@ -1,4 +1,3 @@
-import { announcements } from '../data/announcements'
 import { availablePhones } from '../data/contact-phones'
 import { contacts, schoolChannels } from '../data/contacts'
 import { events } from '../data/events'
@@ -14,6 +13,8 @@ import { initiatives, volunteerAchievements, volunteerConditions, volunteerOppor
 import type { Announcement, Contact, SchoolEvent, SchoolValue } from '../types/content'
 import { daysBetween, parseDate, startOfToday } from '../lib/dates'
 import { API_URL, DATA_SOURCE } from './config'
+import { websiteAnnouncements } from './schoolApp'
+import { hiddenAnnouncementIds, staticAnnouncements } from '../data/announcements'
 
 /**
  * طبقة المحتوى — نقطة الوصول الوحيدة للبيانات من الواجهات.
@@ -45,7 +46,12 @@ export const content = {
   volunteerOpportunities: () => source(volunteerOpportunities, '/volunteer/opportunities'),
   volunteerAchievements: () => source(volunteerAchievements, '/volunteer/achievements'),
   events: () => source(events, '/events'),
-  announcements: () => source(announcements, '/announcements'),
+  // تأتي مباشرة من التطبيق: ما تنشره المدرسة في «الإعلانات» ويُختار له «يظهر في موقع مدار».
+  // مع إعلانات ثابتة مهمة (مثل الدوام الشتوي). إن تعذّر الاتصال تبقى الإعلانات الثابتة ظاهرة.
+  announcements: async (): Promise<Announcement[]> => {
+    const fromApp = await websiteAnnouncements().catch(() => [] as Announcement[])
+    return [...staticAnnouncements, ...fromApp.filter((a) => !hiddenAnnouncementIds.includes(a.id))]
+  },
   contacts: () => source(localContacts(), '/contacts'),
   channels: () => source(schoolChannels, '/contacts/channels'),
   values: () => source(schoolValues, '/values'),

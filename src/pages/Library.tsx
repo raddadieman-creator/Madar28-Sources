@@ -1,4 +1,4 @@
-import { BookOpenText, Download, Library as LibraryIcon, Search, X } from 'lucide-react'
+import { BookOpenText, Download, Library as LibraryIcon, Search, X } from '../components/ui/hand'
 import { useEffect, useMemo, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { EmptyState, PageHeader, Skeleton } from '../components/ui/primitives'

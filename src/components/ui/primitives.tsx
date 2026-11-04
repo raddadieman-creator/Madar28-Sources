@@ -1,13 +1,10 @@
-import { ExternalLink as ExternalIcon, FileText, Info } from 'lucide-react'
+import { ExternalLink as ExternalIcon, FileText, Info } from './hand'
 import type { ReactNode } from 'react'
 import type { ContentStatus, ExternalLink } from '../../types/content'
 
 /** شارة توضح أن المحتوى تجريبي ويحتاج اعتماد المدرسة */
-const SHOW_DRAFT_BADGE = false
-
 export function DraftBadge({ status, className = '' }: { status?: ContentStatus; className?: string }) {
-  // عرض شارة «تجريبي» موقوف بطلب المدرسة؛ تُعاد بتغيير SHOW_DRAFT_BADGE إلى true
-  if (!SHOW_DRAFT_BADGE || status !== 'draft') return null
+  if (status !== 'draft') return null
   return (
     <span
       className={`inline-flex items-center rounded-full border border-dashed border-lav-300 bg-lav-25 px-2 py-0.5 text-[11px] font-medium text-lav-700 ${className}`}

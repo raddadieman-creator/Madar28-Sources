@@ -1,4 +1,4 @@
-import { CircleCheck, Handshake } from 'lucide-react'
+import { CircleCheck, Handshake } from '../components/ui/hand'
 import { Icon } from '../components/ui/Icon'
 import { DraftBadge, EmptyState, ExternalButton, PageHeader, SectionTitle, Skeleton } from '../components/ui/primitives'
 import { useContent } from '../hooks/useContent'

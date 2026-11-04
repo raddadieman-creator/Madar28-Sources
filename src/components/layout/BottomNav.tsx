@@ -1,4 +1,4 @@
-import { Ellipsis } from 'lucide-react'
+import { Ellipsis } from '../ui/hand'
 import { NavLink } from 'react-router-dom'
 import { bottomNav } from '../../data/navigation'
 import { Icon } from '../ui/Icon'

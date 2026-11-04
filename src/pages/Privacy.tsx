@@ -1,4 +1,4 @@
-import { ShieldCheck } from 'lucide-react'
+import { ShieldCheck } from '../components/ui/hand'
 import { PageHeader } from '../components/ui/primitives'
 import { useTitle } from '../hooks/useTitle'
 
@@ -11,9 +11,9 @@ export default function Privacy() {
         <section>
           <h2 className="text-lg font-semibold">في النسخة الحالية</h2>
           <ul className="prose-ar">
-            <li>المنصة لا تتطلب تسجيل دخول، ولا تجمع أسماء أو أرقام هوية أو بيانات طالبات.</li>
+            <li>المنصة لا تتطلب تسجيل دخول، ولا تجمع أرقام هوية أو بيانات طالبات.</li>
             <li>محادثات «رُشد» تتم داخل متصفحك فقط، ولا تُرسل إلى أي خادم، وتُمحى بإغلاق الصفحة.</li>
-            <li>نموذج «صوتك مسموع» لا يحفظ أي نص.</li>
+            <li>ما يُرسل من «صوتك مسموع» و«مركز التواصل» يصل لإدارة المدرسة وحدها برقم متابعة، دون اسم المرسل؛ ورقم الجوال يُطلب فقط عند طلب اتصال.</li>
             <li>القراءة الصوتية والإدخال الصوتي يعملان عبر خصائص المتصفح نفسه.</li>
           </ul>
         </section>

@@ -1,4 +1,4 @@
-import { BookOpenText, ChevronLeft, UserRound } from 'lucide-react'
+import { BookOpenText, ChevronLeft, UserRound } from '../components/ui/hand'
 import { Link, useParams } from 'react-router-dom'
 import { Icon } from '../components/ui/Icon'
 import { SourceLink } from '../components/SourceLink'

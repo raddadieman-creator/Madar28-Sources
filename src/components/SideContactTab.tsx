@@ -1,4 +1,4 @@
-import { Phone } from 'lucide-react'
+import { Phone } from './ui/hand'
 import { Link, useLocation } from 'react-router-dom'
 
 /** زر «تواصل معنا» ثابت على جانب الشاشة */

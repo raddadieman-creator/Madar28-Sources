@@ -1,4 +1,4 @@
-import { CalendarPlus, ChevronLeft, Clock, MapPin, Users } from 'lucide-react'
+import { CalendarPlus, ChevronLeft, Clock, MapPin, Users } from '../components/ui/hand'
 import { Link, useParams } from 'react-router-dom'
 import { EventRow } from '../components/EventRow'
 import { Icon } from '../components/ui/Icon'

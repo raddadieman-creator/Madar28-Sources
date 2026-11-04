@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X } from '../ui/hand'
 import { useEffect } from 'react'
 import { SearchBox } from '../SearchBox'
 

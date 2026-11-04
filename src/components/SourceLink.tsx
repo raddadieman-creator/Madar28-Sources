@@ -1,4 +1,4 @@
-import { BookOpenText } from 'lucide-react'
+import { BookOpenText } from './ui/hand'
 import { Link } from 'react-router-dom'
 import { findDoc } from '../data/library'
 import type { SourceRef } from '../types/content'

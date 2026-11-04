@@ -1,4 +1,4 @@
-import { Menu, Phone, Search } from 'lucide-react'
+import { Menu, Phone, Search } from '../ui/hand'
 import { Link } from 'react-router-dom'
 import { formatGregorian, formatHijri, startOfToday } from '../../lib/dates'
 import { SearchBox } from '../SearchBox'

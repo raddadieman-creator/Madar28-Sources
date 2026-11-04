@@ -1,8 +1,8 @@
-import { ChevronLeft, Target } from 'lucide-react'
+import { ChevronLeft, Target } from './ui/hand'
 import { Link } from 'react-router-dom'
 import type { SchoolValue } from '../types/content'
-import { Icon } from './ui/Icon'
 import { ValueIllustration } from './ValueIllustration'
+import { Icon } from './ui/Icon'
 
 /** قيمة الأسبوع في الرئيسية — الموضع الوحيد الذي يظهر فيه ذهبي الشعار */
 export function ValueCard({ value }: { value: SchoolValue }) {
@@ -41,14 +41,13 @@ export function ValueCard({ value }: { value: SchoolValue }) {
             </figure>
           )}
           <p className="mt-3 text-[15px] leading-7 text-ink-600">{value.meaning}</p>
+          {value.illustration && (
+            <div className="mt-4 flex items-center gap-4 rounded-2xl bg-white/80 p-3 ring-1 ring-gold-100">
+              <ValueIllustration name={value.illustration} className="h-24 w-36 shrink-0" />
+              {value.note && <p className="text-sm leading-7 text-ink-700">{value.note}</p>}
+            </div>
+          )}
         </div>
-        <div className="space-y-3">
-        {value.illustration && (
-          <div className="flex items-center gap-4 rounded-2xl bg-white/80 p-3 ring-1 ring-gold-100">
-            <ValueIllustration name={value.illustration} className="h-24 w-36 shrink-0" />
-            {value.note && <p className="text-sm leading-7 text-ink-700">{value.note}</p>}
-          </div>
-        )}
         <div className="rounded-2xl bg-white/80 p-5 ring-1 ring-gold-100">
           <p className="flex items-center gap-2 text-sm font-bold text-ink-900">
             <Target className="h-4 w-4 text-gold-700" aria-hidden="true" />
@@ -59,7 +58,6 @@ export function ValueCard({ value }: { value: SchoolValue }) {
             خطوات القيمة وقيم العام
             <ChevronLeft className="h-4 w-4" aria-hidden="true" />
           </Link>
-        </div>
         </div>
       </div>
     </section>

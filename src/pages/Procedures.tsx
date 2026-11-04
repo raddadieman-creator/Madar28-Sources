@@ -1,4 +1,4 @@
-import { ChevronDown, Compass, ExternalLink, Phone } from 'lucide-react'
+import { ChevronDown, Compass, ExternalLink, Phone } from '../components/ui/hand'
 import { useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { SourceLink } from '../components/SourceLink'

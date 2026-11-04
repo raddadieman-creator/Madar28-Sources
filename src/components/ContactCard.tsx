@@ -1,4 +1,4 @@
-import { Check, Copy, ExternalLink, Lock, MessageCircle, Phone, UserRoundPlus } from 'lucide-react'
+import { Check, Copy, ExternalLink, Lock, MessageCircle, Phone, UserRoundPlus } from './ui/hand'
 import { downloadVCard } from '../lib/vcard'
 import { useState } from 'react'
 import { formatLocal, telHref, whatsappHref } from '../lib/phone'

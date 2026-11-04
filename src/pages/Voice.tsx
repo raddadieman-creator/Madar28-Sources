@@ -1,10 +1,9 @@
-import { Copy, Lightbulb, MessageCircleHeart, NotebookPen, Rocket, ShieldCheck, TriangleAlert } from 'lucide-react'
+import { Lightbulb, MessageCircleHeart, NotebookPen, Rocket, ShieldCheck, TriangleAlert } from '../components/ui/hand'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Notice, PageHeader } from '../components/ui/primitives'
+import { PageHeader } from '../components/ui/primitives'
 import { useTitle } from '../hooks/useTitle'
 import { detectSensitive, sensitiveLabel } from '../lib/privacy'
-import { SUGGESTIONS_ENABLED } from '../services/config'
 import { submitSuggestion, type SubmitResult, type SuggestionCategory, type SuggestionInput } from '../services/suggestionsService'
 
 const CATS: { id: SuggestionCategory; icon: typeof Lightbulb; hint: string }[] = [
@@ -22,7 +21,6 @@ export default function Voice() {
   const [errors, setErrors] = useState<Partial<Record<'title' | 'details', string>>>({})
   const [result, setResult] = useState<SubmitResult | null>(null)
   const [busy, setBusy] = useState(false)
-  const [copied, setCopied] = useState(false)
 
   const sensitive = detectSensitive(`${form.title} ${form.details}`)
 
@@ -42,17 +40,6 @@ export default function Voice() {
     setBusy(false)
   }
 
-  async function copyText() {
-    const text = `${form.category}: ${form.title}\n\n${form.details}`
-    try {
-      await navigator.clipboard.writeText(text)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-    } catch {
-      /* المتصفح لا يسمح بالنسخ */
-    }
-  }
-
   return (
     <>
       <PageHeader
@@ -63,14 +50,6 @@ export default function Voice() {
 
       <div className="grid gap-8 lg:grid-cols-[1fr_20rem]">
         <form onSubmit={onSubmit} noValidate className="rounded-3xl bg-white p-6 ring-1 ring-lav-100 md:p-8">
-          {!SUGGESTIONS_ENABLED && (
-            <div className="mb-6">
-              <Notice>
-                هذا نموذج أولي يمكنك تجربته، أما الإرسال الفعلي فيُفعَّل بعد ربط المنصة بقاعدة بيانات آمنة، ولن يُحفظ ما تكتبه الآن.
-              </Notice>
-            </div>
-          )}
-
           <fieldset>
             <legend className="mb-3 font-medium text-ink-900">نوع المشاركة</legend>
             <div className="grid grid-cols-3 gap-2 sm:gap-3">
@@ -181,24 +160,14 @@ export default function Voice() {
             >
               {result.ok ? (
                 <>
-                  <p className="font-semibold text-sage-700">وصل اقتراحك.</p>
+                  <p className="font-semibold text-sage-700">وصلت مشاركتك للمدرسة، شكرًا لك.</p>
                   <p className="mt-1 text-sm text-ink-700">
                     رقم المتابعة: <span className="font-mono font-semibold" dir="ltr">{result.trackingCode}</span>
                   </p>
+                  <p className="mt-1 text-xs text-ink-500">احتفظ بالرقم واذكره إن تواصلت مع المدرسة بخصوصها.</p>
                 </>
               ) : (
-                <>
-                  <p className="font-semibold text-ink-900">{result.message}</p>
-                  {result.reason === 'not-enabled' && (
-                    <>
-                      <p className="mt-1 text-sm text-ink-600">إن أردت الاحتفاظ بنص اقتراحك فانسخه وأرسله عبر قنوات المدرسة المعتادة.</p>
-                      <button type="button" onClick={copyText} className="btn-soft mt-3">
-                        <Copy className="h-4 w-4" aria-hidden="true" />
-                        {copied ? 'نُسخ النص' : 'نسخ نص الاقتراح'}
-                      </button>
-                    </>
-                  )}
-                </>
+                <p className="font-semibold text-ink-900">{result.message}</p>
               )}
             </div>
           )}
@@ -212,11 +181,11 @@ export default function Voice() {
             </p>
           </section>
           <section className="rounded-3xl bg-white p-6 ring-1 ring-lav-100">
-            <h2 className="text-base font-semibold">بعد تفعيل الإرسال</h2>
+            <h2 className="text-base font-semibold">بعد الإرسال</h2>
             <ul className="prose-ar text-sm text-ink-600">
-              <li>تحصل على رقم متابعة لكل اقتراح.</li>
-              <li>تطّلع عليه المسؤولات المخولات فقط.</li>
-              <li>تتابع حالته برقم المتابعة دون تسجيل دخول.</li>
+              <li>تحصل على رقم متابعة لكل مشاركة.</li>
+              <li>تطّلع عليها إدارة المدرسة فقط.</li>
+              <li>تُدرس ويُتابع ما يُنفَّذ منها.</li>
             </ul>
           </section>
           <p className="px-2 text-xs text-ink-500">

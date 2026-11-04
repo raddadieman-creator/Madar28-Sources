@@ -1,11 +1,11 @@
-import { BookHeart, Gem, HeartHandshake, School, Target, UserRoundCheck } from 'lucide-react'
+import { BookHeart, Gem, HeartHandshake, School, Target, UserRoundCheck } from '../components/ui/hand'
 import { SourceLink } from '../components/SourceLink'
-import { ValueIllustration } from '../components/ValueIllustration'
 import { Icon } from '../components/ui/Icon'
 import { PageHeader, Skeleton } from '../components/ui/primitives'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { formatGregorian, formatHijri } from '../lib/dates'
+import { ValueIllustration } from '../components/ValueIllustration'
 import { content, valueArchive, valueOfTheWeek } from '../services/contentService'
 
 export default function Values() {
@@ -25,7 +25,7 @@ export default function Values() {
 
   return (
     <>
-      <PageHeader title="ترسيخ القيم" intro="القيم التسع في مصفوفة القيم والسلوك الإيجابي، لكل أسبوع قيمة واحدة تُعاش في الفصل والبيت." icon={<Gem className="h-6 w-6" />} />
+      <PageHeader title="ترسيخ القيم" intro="تسع قيم يعمل عليها العام الدراسي، لكل أسبوع قيمة واحدة تُعاش في الفصل والبيت." icon={<Gem className="h-6 w-6" />} />
 
       {/* كيف تُرسَّخ القيمة؟ أربع خطوات كل أسبوع */}
       <section aria-labelledby="how" className="mb-8">
@@ -69,7 +69,7 @@ export default function Values() {
           )}
           {v.saying && (
             <figure className="mx-auto mt-3 max-w-xl">
-              <blockquote className="text-lg font-semibold leading-9 text-ink-800">«{v.saying.text}»</blockquote>
+              <blockquote className="text-[17px] font-semibold leading-8 text-ink-800">«{v.saying.text}»</blockquote>
               <figcaption className="text-xs text-gold-700">
                 {v.saying.url ? (
                   <a href={v.saying.url} target="_blank" rel="noopener noreferrer" className="underline-offset-2 hover:underline">{v.saying.ref}</a>
@@ -107,7 +107,7 @@ export default function Values() {
         <h2 id="year-values" className="mb-1 text-lg font-bold">
           قيم العام الدراسي
         </h2>
-        <p className="mb-4 text-sm text-ink-500">القيم الموسومة «السلوك المتميز» ترد أيضًا في قواعد السلوك والمواظبة 1447هـ.</p>
+        <p className="mb-4 text-sm text-ink-500">القيم الست الأولى هي القيم التي يُقيَّم بها السلوك المتميز في قواعد السلوك والمواظبة.</p>
         <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {values.map((x) => (
             <li key={x.id} className={`rounded-2xl p-4 ring-1 ${x.id === v.id ? 'bg-gold-100 ring-gold-500/40' : 'bg-white ring-lav-100'}`}>

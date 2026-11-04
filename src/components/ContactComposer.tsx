@@ -1,17 +1,16 @@
-import { AlertTriangle, CalendarClock, Check, Copy, MessageCircle, Send } from 'lucide-react'
+import { AlertTriangle, CalendarClock, Check, Copy, MessageCircle, Send } from './ui/hand'
 import { useEffect, useMemo, useState } from 'react'
 import { whatsappHref } from '../lib/phone'
 import { detectSensitive, sensitiveLabel } from '../lib/privacy'
+import { sendToSchool, type SendResult } from '../services/schoolApp'
 import type { Contact } from '../types/content'
 
 /**
- * مركز التواصل: تجهيز رسالة واتساب جاهزة بحسب نوع الطلب.
+ * مركز التواصل: يُرسل الطلب إلى تطبيق المدرسة (صفحة «المشاركات») للمسؤولة المختارة برقم متابعة.
  *
- * - لا يُحفظ شيء ولا يُرسل شيء من المنصة نفسها؛ المنصة تُجهّز النص فقط،
- *   ثم يراجعه المستخدم ويرسله بنفسه من واتساب.
- * - لا رقم متابعة ولا حجز مواعيد: هذا يحتاج قاعدة بيانات وخادمًا، وغير متوفر
- *   على GitHub Pages. «طلب الموعد» طلب يُرسل للمسؤولة، والتأكيد يأتي منها.
- * - يُمنع إدخال أرقام الهوية والجوال والبريد في الرسالة.
+ * - واتساب يبقى بديلًا إن تعذّر الإرسال.
+ * - «طلب الموعد» طلب يُرسل للمسؤولة، والتأكيد يأتي منها.
+ * - يُمنع إدخال أرقام الهوية والجوال والبريد في نص الرسالة؛ الجوال في حقله فقط عند «طلب التواصل».
  */
 
 type Kind = 'inquiry' | 'note' | 'complaint' | 'suggestion' | 'appointment' | 'callback'
@@ -26,7 +25,7 @@ const KINDS: { id: Kind; label: string; hint: string; defaultTo: string; allowed
 ]
 
 const GRADES = ['', 'الأول المتوسط', 'الثاني المتوسط', 'الثالث المتوسط']
-const SENDERS = ['ولي أمر', 'طالبة', 'معلمة', 'إدارية', 'أخرى']
+const SENDERS = ['ولي أمر', 'طالبة', 'منسوبة', 'أخرى']
 const TIMES = ['', 'بداية الدوام', 'منتصف الدوام', 'نهاية الدوام']
 
 export function ContactComposer({
@@ -47,7 +46,7 @@ export function ContactComposer({
   const k = KINDS.find((x) => x.id === kind)!
   const options = reachable.filter((c) => !k.allowed || k.allowed.includes(c.id))
   const [to, setTo] = useState(initialTo && reachable.some((c) => c.id === initialTo) ? initialTo : k.defaultTo)
-  const [sender, setSender] = useState(initialSender && SENDERS.includes(initialSender) ? initialSender : SENDERS[0])
+  const [sender, setSender] = useState(SENDERS.includes(initialSender ?? '') ? initialSender! : SENDERS[0])
   const [grade, setGrade] = useState('')
   const [topic, setTopic] = useState(initialTopic ?? '')
   const [body, setBody] = useState('')
@@ -56,11 +55,16 @@ export function ContactComposer({
   const [method, setMethod] = useState('اتصال')
   const [review, setReview] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [name, setName] = useState('')
+  const [phone, setPhone] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [sent, setSent] = useState<SendResult | null>(null)
 
   // عند تغيير النوع: إن كانت المسؤولة المختارة خارج المسموح، نعود للافتراضي
   useEffect(() => {
     if (k.allowed && !k.allowed.includes(to)) setTo(k.defaultTo)
     setReview(false)
+    setSent(null)
   }, [kind]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // الوصول من رابط خارجي (مثل «طلب موعد» في الرئيسية) يمرّر إلى النموذج
@@ -74,7 +78,8 @@ export function ContactComposer({
   const target = reachable.find((c) => c.id === to)
   const sensitive = useMemo(() => detectSensitive(`${topic} ${body} ${days}`), [topic, body, days])
   const needsBody = kind !== 'appointment' && kind !== 'callback'
-  const ready = Boolean(target && topic.trim() && (!needsBody || body.trim()) && !sensitive.length)
+  const phoneOk = kind !== 'callback' || /^[0-9+]{9,15}$/.test(phone.replace(/[\s-]/g, ''))
+  const ready = Boolean(target && topic.trim().length >= 2 && (!needsBody || body.trim()) && !sensitive.length && phoneOk)
 
   const text = useMemo(() => {
     const lines = [
@@ -108,6 +113,37 @@ export function ContactComposer({
     }
   }
 
+  async function send() {
+    setBusy(true)
+    setSent(
+      await sendToSchool({
+        p_source: 'contact',
+        p_kind: kind,
+        p_desk: to,
+        p_topic: topic.trim(),
+        p_details: body.trim() || undefined,
+        p_sender_type: sender,
+        p_grade: grade || undefined,
+        p_preferred_days: kind === 'appointment' ? days.trim() || undefined : undefined,
+        p_preferred_time: kind === 'appointment' || kind === 'callback' ? time || undefined : undefined,
+        p_contact_method: kind === 'callback' ? method : undefined,
+        p_contact_name: kind === 'callback' ? name.trim() || undefined : undefined,
+        p_contact_phone: kind === 'callback' ? phone.replace(/[\s-]/g, '') : undefined,
+      }),
+    )
+    setBusy(false)
+  }
+
+  function startOver() {
+    setTopic('')
+    setBody('')
+    setDays('')
+    setName('')
+    setPhone('')
+    setSent(null)
+    setReview(false)
+  }
+
   if (!reachable.length) return null
 
   return (
@@ -116,7 +152,7 @@ export function ContactComposer({
         <Send className="h-5 w-5 text-lav-600" aria-hidden="true" />
         إرسال طلب للمدرسة
       </h2>
-      <p className="mt-1 text-sm text-ink-500">تُجهَّز الرسالة هنا، ثم تُراجع وتُرسل من واتساب إلى المسؤولة مباشرة.</p>
+      <p className="mt-1 text-sm text-ink-500">اكتب طلبك وراجعه، ثم يُرسل إلى المسؤولة مباشرة برقم متابعة، دون تسجيل دخول.</p>
 
       <fieldset className="mt-5">
         <legend className="mb-2 text-sm font-semibold text-ink-700">نوع الطلب</legend>
@@ -204,6 +240,14 @@ export function ContactComposer({
           {kind === 'callback' && (
             <>
               <label className="block">
+                <span className="mb-1.5 block text-sm font-medium text-ink-700">رقم الجوال للتواصل</span>
+                <input value={phone} onChange={(e) => setPhone(e.target.value)} inputMode="tel" dir="ltr" maxLength={16} className="field py-2.5" placeholder="05xxxxxxxx" required />
+              </label>
+              <label className="block">
+                <span className="mb-1.5 block text-sm font-medium text-ink-700">الاسم (اختياري)</span>
+                <input value={name} onChange={(e) => setName(e.target.value)} maxLength={80} className="field py-2.5" placeholder="مثل: أم سارة" />
+              </label>
+              <label className="block">
                 <span className="mb-1.5 block text-sm font-medium text-ink-700">طريقة التواصل المفضلة</span>
                 <select value={method} onChange={(e) => setMethod(e.target.value)} className="field py-2.5">
                   <option>اتصال</option>
@@ -246,24 +290,47 @@ export function ContactComposer({
         <div className="mt-5">
           <p className="mb-2 text-sm font-semibold text-ink-700">مراجعة الرسالة قبل الإرسال</p>
           <pre className="whitespace-pre-wrap rounded-2xl bg-lav-25 p-4 font-sans text-[15px] leading-7 text-ink-800 ring-1 ring-lav-100">{text}</pre>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {target?.phone && (
-              <a href={`${whatsappHref(target.phone)}?text=${encodeURIComponent(text)}`} target="_blank" rel="noopener noreferrer" className="btn bg-sage-500 text-white hover:bg-sage-600">
-                <MessageCircle className="h-4 w-4" aria-hidden="true" />
-                فتح واتساب بالرسالة
-              </a>
-            )}
-            <button type="button" onClick={copy} className="btn-ghost">
-              {copied ? <Check className="h-4 w-4 text-sage-600" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
-              {copied ? 'نُسخت' : 'نسخ النص'}
-            </button>
-            <button type="button" onClick={() => setReview(false)} className="btn-ghost">
-              تعديل
-            </button>
-          </div>
-          <p className="mt-3 text-xs leading-5 text-ink-500">
-            الرسالة لا تُحفظ في المنصة ولا يصدر لها رقم متابعة؛ المتابعة تكون في محادثة واتساب نفسها.
-          </p>
+          {sent?.ok ? (
+            <div role="status" className="mt-4 rounded-2xl bg-sage-50 p-4 ring-1 ring-sage-200">
+              <p className="font-semibold text-sage-700">وصل طلبك إلى {target?.role}، شكرًا لك.</p>
+              <p className="mt-1 text-sm text-ink-700">
+                رقم المتابعة: <span className="font-mono font-semibold" dir="ltr">{sent.refNo}</span>
+              </p>
+              <p className="mt-1 text-xs text-ink-500">احتفظ بالرقم واذكره إن تواصلت مع المدرسة بخصوص طلبك.</p>
+              <button type="button" onClick={startOver} className="btn-ghost mt-3">
+                طلب جديد
+              </button>
+            </div>
+          ) : (
+            <>
+              <div className="mt-4 flex flex-wrap gap-2">
+                <button type="button" onClick={send} disabled={busy} className="btn-primary px-6">
+                  <Send className="h-4 w-4" aria-hidden="true" />
+                  {busy ? 'جارٍ الإرسال…' : 'إرسال للمدرسة'}
+                </button>
+                <button type="button" onClick={() => setReview(false)} className="btn-ghost" disabled={busy}>
+                  تعديل
+                </button>
+              </div>
+              {sent && !sent.ok && (
+                <div role="alert" className="mt-4 rounded-2xl bg-lav-50 p-4 ring-1 ring-lav-200">
+                  <p className="font-semibold text-ink-900">{sent.message}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {target?.phone && (
+                      <a href={`${whatsappHref(target.phone)}?text=${encodeURIComponent(text)}`} target="_blank" rel="noopener noreferrer" className="btn bg-sage-500 text-white hover:bg-sage-600">
+                        <MessageCircle className="h-4 w-4" aria-hidden="true" />
+                        الإرسال عبر واتساب
+                      </a>
+                    )}
+                    <button type="button" onClick={copy} className="btn-ghost">
+                      {copied ? <Check className="h-4 w-4 text-sage-600" aria-hidden="true" /> : <Copy className="h-4 w-4" aria-hidden="true" />}
+                      {copied ? 'نُسخت' : 'نسخ النص'}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
         </div>
       )}
     </section>

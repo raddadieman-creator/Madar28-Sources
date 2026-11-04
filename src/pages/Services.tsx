@@ -1,4 +1,4 @@
-import { ChevronDown, ExternalLink, LayoutGrid, UserRound } from 'lucide-react'
+import { ChevronDown, ExternalLink, LayoutGrid, UserRound } from '../components/ui/hand'
 import { Link } from 'react-router-dom'
 import { Icon } from '../components/ui/Icon'
 import { ExternalButton, PageHeader, SectionTitle, Skeleton } from '../components/ui/primitives'

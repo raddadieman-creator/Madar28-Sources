@@ -1,4 +1,4 @@
-import { ExternalLink, Mic, MicOff, Send, Volume2, VolumeX, X } from 'lucide-react'
+import { ExternalLink, Mic, MicOff, Send, Volume2, VolumeX, X } from '../ui/hand'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { SourceLink, sourcePath } from '../SourceLink'
 import { Link } from 'react-router-dom'
@@ -10,14 +10,18 @@ import { content } from '../../services/contentService'
 import { answer, type RushdReply } from '../../services/rushdEngine'
 import { getSearchIndex } from '../../services/searchService'
 import { useRushd } from './RushdContext'
-import { RushdAvatar } from './RushdAvatar'
-import { RushdBot } from './RushdBot'
+import { RushdBot, type RushdMood } from './RushdBot'
 
 interface Message {
   id: number
   from: 'user' | 'rushd'
   text: string
   reply?: RushdReply
+}
+
+/** شعور رُشد مع كل نوع من الردود */
+const MOOD: Record<RushdReply['kind'], RushdMood> = {
+  answer: 'happy', search: 'think', none: 'sorry', sensitive: 'wow', greeting: 'wave', thanks: 'love',
 }
 
 const WELCOME = 'أهلًا بك، أنا رُشد. كيف أساعدك؟'
@@ -53,6 +57,14 @@ export function RushdPanel() {
   const [speakingId, setSpeakingId] = useState<number | null>(null)
   const [listening, setListening] = useState(false)
   const [typing, setTyping] = useState(false)
+  // يلوّح عند فتح النافذة، ثم يتغيّر شعوره مع كل رد ويعود هادئًا
+  const [mood, setMood] = useState<RushdMood>('wave')
+  useEffect(() => {
+    if (mood === 'idle') return
+    const t = window.setTimeout(() => setMood('idle'), 2800)
+    return () => window.clearTimeout(t)
+  }, [mood, messages.length])
+  const face: RushdMood = typing ? 'think' : speakingId !== null ? 'talk' : mood
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLDivElement>(null)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -78,6 +90,7 @@ export function RushdPanel() {
     window.setTimeout(() => {
       setTyping(false)
       setMessages((m) => [...m, { id: botId, from: 'rushd', text: replyText(reply), reply }])
+      setMood(MOOD[reply.kind])
       if (autoRead && speechOk) {
         setSpeakingId(botId)
         speak(replyText(reply), () => setSpeakingId(null))
@@ -157,7 +170,7 @@ export function RushdPanel() {
     >
       {/* الرأس */}
       <div className="flex items-center gap-3 border-b border-lav-100 bg-gradient-to-l from-lav-50 to-sage-50 px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
-        <RushdAvatar size={44} thinking={typing} />
+        <RushdBot size={44} mood={face} />
         <div className="min-w-0 flex-1">
           <h2 id="rushd-title" className="text-base font-semibold">
             رُشد
@@ -194,7 +207,7 @@ export function RushdPanel() {
           m.id === 0 ? (
             <div key={m.id} className="bubble-in flex flex-col items-center px-2 pb-1 pt-2 text-center">
               <div className="rushd-float">
-                <RushdBot size={92} body />
+                <RushdBot size={92} body mood={face === 'idle' ? 'idle' : face} />
               </div>
               <p className="mt-3 text-base font-semibold text-ink-900">أهلًا بك، أنا رُشد</p>
               <p className="mt-1 text-sm text-ink-600">كيف أساعدك؟</p>
@@ -206,7 +219,7 @@ export function RushdPanel() {
           ) : (
             <div key={m.id} className="bubble-in flex items-start justify-start gap-2">
               <span className="mt-0.5 shrink-0">
-                <RushdBot size={28} animated={false} />
+                <RushdBot size={28} animated={false} mood={m.reply ? MOOD[m.reply.kind] : 'idle'} />
               </span>
               <div className="max-w-[86%] rounded-2xl rounded-ss-md border border-lav-100 bg-white px-4 py-3 text-sm text-ink-800 shadow-soft">
                 <ReplyBody m={m} onAsk={ask} onNavigate={() => window.innerWidth < 768 && close()} />

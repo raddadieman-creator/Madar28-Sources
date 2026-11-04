@@ -1,4 +1,4 @@
-import { X } from 'lucide-react'
+import { X } from '../ui/hand'
 import { useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { mainNav } from '../../data/navigation'

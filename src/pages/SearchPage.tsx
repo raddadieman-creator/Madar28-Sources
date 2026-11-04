@@ -1,4 +1,4 @@
-import { ExternalLink, Search } from 'lucide-react'
+import { ExternalLink, Search } from '../components/ui/hand'
 import { useMemo } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useRushd } from '../components/rushd/RushdContext'

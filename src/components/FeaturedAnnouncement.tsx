@@ -1,4 +1,4 @@
-import { Clock, Megaphone } from 'lucide-react'
+import { Clock, Megaphone } from './ui/hand'
 import { useState } from 'react'
 import type { Announcement } from '../types/content'
 

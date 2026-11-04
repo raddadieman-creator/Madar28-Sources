@@ -1,4 +1,4 @@
-import { Clock, MapPin, Quote, School } from 'lucide-react'
+import { Clock, MapPin, Quote, School } from '../components/ui/hand'
 import { Icon } from '../components/ui/Icon'
 import { DraftBadge, PageHeader, SectionTitle, Skeleton } from '../components/ui/primitives'
 import { useContent } from '../hooks/useContent'

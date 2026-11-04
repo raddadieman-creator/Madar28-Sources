@@ -2,7 +2,7 @@ import type { Initiative, Opportunity } from '../types/content'
 
 /**
  * العمل التطوعي.
- * المبادرات المعلَّمة draft أمثلة مقترحة للتوضيح، تُستبدل بمبادرات المدرسة الفعلية.
+ * المبادرات معتمدة من المدرسة (أم ريان، 2026-10-21).
  */
 const NVG = 'https://www.nvg.gov.sa'
 
@@ -13,7 +13,7 @@ export const initiatives: Initiative[] = [
     summary: 'العناية بالنباتات والمساحات الخضراء في المدرسة، وفرز المواد القابلة لإعادة التدوير.',
     icon: 'leaf',
     audience: ['الطالبات'],
-    status: 'draft',
+    status: 'approved',
     tags: ['بيئة', 'زراعة', 'تدوير'],
   },
   {
@@ -22,7 +22,7 @@ export const initiatives: Initiative[] = [
     summary: 'طالبات متفوقات يساعدن زميلاتهن في مراجعة الدروس بإشراف معلمة.',
     icon: 'handshake',
     audience: ['الطالبات'],
-    status: 'draft',
+    status: 'approved',
     tags: ['تعليم', 'مساعدة', 'أقران'],
   },
   {
@@ -31,7 +31,7 @@ export const initiatives: Initiative[] = [
     summary: 'تنظيم مكتبة الفصل، وجمع الكتب المستعملة الصالحة وإتاحتها للجميع.',
     icon: 'book',
     audience: ['الطالبات', 'أولياء الأمور'],
-    status: 'draft',
+    status: 'approved',
     tags: ['قراءة', 'كتب', 'مكتبة'],
   },
   {
@@ -40,7 +40,7 @@ export const initiatives: Initiative[] = [
     summary: 'مشاركة أولياء الأمور بخبراتهم في لقاءات مهنية وتوعوية للطالبات.',
     icon: 'users',
     audience: ['أولياء الأمور'],
-    status: 'draft',
+    status: 'approved',
     tags: ['أسرة', 'مهن', 'خبرات'],
   },
 ]
@@ -67,7 +67,7 @@ export const volunteerOpportunities: Opportunity[] = [
     title: 'يوم التطوع المدرسي',
     summary: 'يوم مفتوح لتنفيذ مبادرات قصيرة داخل المدرسة بمشاركة الطالبات والأسر.',
     timing: 'موعد مقترح — يُحدَّد من المدرسة',
-    status: 'draft',
+    status: 'approved',
     tags: ['يوم مفتوح', 'مبادرات'],
   },
 ]

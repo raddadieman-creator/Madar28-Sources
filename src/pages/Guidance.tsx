@@ -1,4 +1,4 @@
-import { Heart } from 'lucide-react'
+import { Heart } from '../components/ui/hand'
 import { Link } from 'react-router-dom'
 import { Icon } from '../components/ui/Icon'
 import { PageHeader, Skeleton } from '../components/ui/primitives'

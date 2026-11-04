@@ -1,7 +1,26 @@
-import { ExternalLink, Pin } from 'lucide-react'
+import { ExternalLink, Pin } from './ui/hand'
 import type { Announcement } from '../types/content'
 import { formatGregorian, formatHijri, parseDate } from '../lib/dates'
 import { DraftBadge } from './ui/primitives'
+
+const URL_RE = /(https?:\/\/[^\s]+)/g
+
+/** نص الإعلان مع جعل الروابط (مثل روابط الاستبانات) قابلة للضغط */
+function BodyText({ text }: { text: string }) {
+  return (
+    <>
+      {text.split(URL_RE).map((part, i) =>
+        i % 2 ? (
+          <a key={i} href={part} target="_blank" rel="noopener noreferrer" dir="ltr" className="break-all font-medium text-lav-700 underline underline-offset-4 hover:text-lav-800">
+            {part}
+          </a>
+        ) : (
+          part
+        ),
+      )}
+    </>
+  )
+}
 
 export function AnnouncementItem({ a }: { a: Announcement }) {
   const d = parseDate(a.date)
@@ -21,7 +40,9 @@ export function AnnouncementItem({ a }: { a: Announcement }) {
         <DraftBadge status={a.status} />
       </div>
       <h3 className="text-[15px] font-semibold">{a.title}</h3>
-      <p className="mt-1 text-sm text-ink-600">{a.body}</p>
+      <p className="mt-1 whitespace-pre-line text-sm text-ink-600">
+        <BodyText text={a.body} />
+      </p>
       {a.link && (
         <a
           href={a.link.url}

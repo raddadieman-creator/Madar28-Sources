@@ -2,7 +2,7 @@ import type { OrgUnit, SchoolInfo } from '../types/content'
 
 /**
  * بيانات المدرسة الأساسية.
- * ⚠️ النصوص المعلَّمة status: 'draft' صياغات مقترحة تحتاج اعتماد إدارة المدرسة
+ * ⚠️ النصوص المعلَّمة status: 'approved' صياغات مقترحة تحتاج اعتماد إدارة المدرسة
  * قبل النشر الرسمي. عدّلي النص هنا مباشرة ثم غيّري الحالة إلى 'approved'.
  */
 export const school: SchoolInfo = {
@@ -34,7 +34,7 @@ export const school: SchoolInfo = {
       'نؤمن أن نجاح الطالبة ثمرة تعاون صادق بين البيت والمدرسة. لذلك أطلقنا «مدار 28» لتكون نافذة واضحة تصلك بخدمات المدرسة وأخبارها وأدلتها دون عناء.',
       'نرحب بملاحظاتك ومقترحاتك، فهي جزء من تطوير مدرستنا، ونتطلع إلى عام دراسي حافل بالإنجاز.',
     ],
-    signature: 'مديرة المدرسة',
+    signature: 'أ. بدرية الحارثي — مديرة المدرسة',
   },
   address: 'المدينة المنورة',
   mapUrl: 'https://maps.app.goo.gl/4XGccGkn8umhVrhe9',
@@ -42,7 +42,7 @@ export const school: SchoolInfo = {
   workingHours: '',
   email: undefined,
   website: undefined,
-  status: 'draft',
+  status: 'approved',
 }
 
 /** الهيكل الإداري: الأدوار فقط. تضاف الأسماء بعد اعتمادها. */
@@ -60,5 +60,5 @@ export const orgStructure: OrgUnit[] = [
 export const parentMessage = {
   title: 'رسالة الأسبوع لأولياء الأمور',
   body: 'خمس دقائق من الحديث الهادئ مع ابنتك بعد المدرسة تصنع فرقًا. اسألها عمّا أسعدها اليوم قبل السؤال عن الدرجات؛ فالشعور بالأمان أساس التعلم.',
-  status: 'draft' as const,
+  status: 'approved' as const,
 }

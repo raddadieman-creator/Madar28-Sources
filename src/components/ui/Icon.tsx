@@ -3,7 +3,7 @@ import {
   Crown, FlaskConical, Flag, Gem, Globe, GraduationCap, Handshake, Heart, HeartHandshake, House, Landmark,
   LayoutGrid, Leaf, Library, Lightbulb, Lock, MessageCircleHeart, Monitor, Mountain, Pencil, Phone, Rocket,
   Scale, School, Shield, ShieldCheck, Smile, Sparkles, Sun, Trophy, Users, type LucideIcon, type LucideProps,
-} from 'lucide-react'
+} from './hand'
 
 /**
  * سجل الأيقونات: يربط أسماء الأيقونات المستخدمة في ملفات البيانات بمكونات Lucide.

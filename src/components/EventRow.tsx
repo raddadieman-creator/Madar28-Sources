@@ -5,7 +5,7 @@ import { eventState } from '../services/contentService'
 import type { SchoolEvent } from '../types/content'
 import { DraftBadge } from './ui/primitives'
 
-/** صف فعالية: كتلة التاريخ الهجري ثم التفاصيل، والميلادي تحت العنوان */
+/** صف فعالية: كتلة التاريخ (ميلادي + هجري) ثم التفاصيل */
 export function EventRow({ ev, compact = false }: { ev: SchoolEvent; compact?: boolean }) {
   const start = parseDate(ev.start)
   const state = eventState(ev)

@@ -1,4 +1,4 @@
-import { Check, Copy, ExternalLink, Lock, MessageCircle, Phone, Search, Send, UsersRound, X } from 'lucide-react'
+import { Check, Copy, ExternalLink, Lock, MessageCircle, Phone, Search, Send, UsersRound, X } from '../components/ui/hand'
 import { useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { ContactCard } from '../components/ContactCard'

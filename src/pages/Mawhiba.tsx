@@ -1,4 +1,4 @@
-import { CalendarClock, Lightbulb } from 'lucide-react'
+import { CalendarClock, Lightbulb } from '../components/ui/hand'
 import { Link } from 'react-router-dom'
 import { Icon } from '../components/ui/Icon'
 import { DraftBadge, ExternalButton, Notice, PageHeader, SectionTitle, Skeleton } from '../components/ui/primitives'

@@ -1,4 +1,4 @@
-import { BookOpenCheck, ChevronLeft, ExternalLink, FileText, Headset, MessageCircle } from 'lucide-react'
+import { BookOpenText, ChevronLeft, ExternalLink, FileText, MessageCircleHeart, MessageCircle } from '../components/ui/hand'
 import { Link, useSearchParams } from 'react-router-dom'
 import { PageHeader } from '../components/ui/primitives'
 import { academicAudiences, academicServices, staffGuide, teacherGuide, type AcademicAudience, type GuideSection } from '../data/academic'
@@ -25,7 +25,7 @@ export default function Academic() {
       <PageHeader
         title="الشؤون التعليمية"
         intro="خدمة المستفيد: مرجع واحد لطلبات الشؤون التعليمية، للطالبة وولي أمرها، وللمعلمة، وللإدارية."
-        icon={<BookOpenCheck className="h-6 w-6" />}
+        icon={<BookOpenText className="h-6 w-6" />}
       />
 
       <nav aria-label="أقسام الشؤون التعليمية" className="mb-6 grid grid-cols-3 gap-2 rounded-2xl bg-white p-1.5 ring-1 ring-lav-100">
@@ -102,7 +102,7 @@ export default function Academic() {
         <aside className="space-y-3 lg:sticky lg:top-24 lg:self-start">
           <div className="rounded-3xl bg-gradient-to-bl from-lav-100 to-white p-5 ring-1 ring-lav-100">
             <p className="flex items-center gap-2 font-bold text-ink-900">
-              <Headset className="h-5 w-5 text-lav-600" aria-hidden="true" />
+              <MessageCircleHeart className="h-5 w-5 text-lav-600" aria-hidden="true" />
               خدمة المستفيد
             </p>
             <p className="mt-2 text-sm leading-7 text-ink-600">

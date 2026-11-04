@@ -1,16 +1,16 @@
-import { ChevronLeft, Compass, ExternalLink, Library, Phone } from 'lucide-react'
+import { ChevronLeft, Compass, ExternalLink, Library, Phone } from '../components/ui/hand'
 import { Link } from 'react-router-dom'
 import { AnnouncementItem } from '../components/AnnouncementItem'
 import { EventRow } from '../components/EventRow'
-import { RushdBot } from '../components/rushd/RushdBot'
+import { RushdStage } from '../components/rushd/RushdStage'
+import { FeaturedAnnouncement } from '../components/FeaturedAnnouncement'
+import { OfficialLinksStrip } from '../components/OfficialLinksStrip'
+import { VerseFlagCard } from '../components/VerseFlagCard'
 import { useRushd } from '../components/rushd/RushdContext'
 import { SearchBox } from '../components/SearchBox'
 import { EmptyState, SectionTitle, Skeleton } from '../components/ui/primitives'
 import { telegramGroup } from '../data/links'
 import { ValueCard } from '../components/ValueCard'
-import { FeaturedAnnouncement } from '../components/FeaturedAnnouncement'
-import { VerseFlagCard } from '../components/VerseFlagCard'
-import { OfficialLinksStrip } from '../components/OfficialLinksStrip'
 import { useContent } from '../hooks/useContent'
 import { useTitle } from '../hooks/useTitle'
 import { formatGregorian, formatHijri, startOfToday } from '../lib/dates'
@@ -46,7 +46,6 @@ const PANELS: { title: string; hint: string; to: string; cta: string; icon: type
       { label: 'التأخر الصباحي', to: '/procedures#late' },
       { label: 'الغياب', to: '/procedures#absence' },
       { label: 'تعويض درجات السلوك', to: '/procedures#behavior-points' },
-      { label: 'الشؤون التعليمية', to: '/academic' },
       { label: 'اختبارات نافس', to: '/nafs' },
     ],
   },
@@ -71,7 +70,7 @@ export default function Home() {
   useTitle()
   const { open } = useRushd()
   const { data: school } = useContent(content.school)
-  const { data: anns } = useContent(content.announcements)
+  const { data: anns, error: annsError } = useContent(content.announcements)
   const { data: events } = useContent(content.events)
   const { data: values } = useContent(content.values)
 
@@ -84,7 +83,7 @@ export default function Home() {
 
   return (
     <div className="space-y-14 md:space-y-16">
-      {/* أعلى الصفحة: العلم والدعاء، ثم الإعلانات المهمة فقط (featured: true) كالدوام والمواعيد */}
+      {/* أعلى الصفحة: العلم والدعاء، ثم الإعلانات المهمة فقط (featured) كالدوام */}
       <div className="space-y-5">
         <VerseFlagCard />
         {featured.map((a) => (
@@ -202,7 +201,6 @@ export default function Home() {
         ))}
       </section>
 
-
       {/* رُشد */}
       <section
         aria-labelledby="rushd-title-home"
@@ -228,23 +226,18 @@ export default function Home() {
               <circle cx="262" cy="70" r="6" fill="#A391D2" />
               <circle cx="52" cy="214" r="4.5" fill="#86AD7F" />
             </svg>
-            <div className="relative">
-              <p className="bubble-in absolute -top-6 end-[72%] whitespace-nowrap rounded-2xl rounded-ee-sm bg-white px-3.5 py-2 text-sm font-medium text-ink-800 shadow-soft ring-1 ring-lav-100">
-                أهلًا بك
-              </p>
-              <div className="rushd-float">
-                <RushdBot size={150} body />
-              </div>
-            </div>
+            <RushdStage onOpen={() => open()} />
           </div>
         </div>
       </section>
 
       {/* بقية الإعلانات، ومقابلها المناسبات القادمة */}
-      <div className="grid gap-8 lg:grid-cols-2 lg:gap-6">
+      <div className="grid gap-10 lg:grid-cols-[1.15fr_1fr] lg:gap-8">
         <section aria-labelledby="ann-title">
           <SectionTitle id="ann-title" title="الإعلانات" />
-          {!anns ? (
+          {annsError ? (
+            <EmptyState title="تعذّر تحميل الإعلانات الآن" />
+          ) : !anns ? (
             <Skeleton className="h-64" />
           ) : announcements.length ? (
             <div className="space-y-2 rounded-3xl bg-white p-2 ring-1 ring-lav-100">

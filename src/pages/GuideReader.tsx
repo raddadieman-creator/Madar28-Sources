@@ -1,4 +1,4 @@
-import { BookOpenText, ChevronLeft, Download, ExternalLink, FileText, ListTree, ShieldCheck } from 'lucide-react'
+import { BookOpenText, ChevronLeft, Download, ExternalLink, FileText, ListTree, ShieldCheck } from '../components/ui/hand'
 import { useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { EmptyState, Skeleton } from '../components/ui/primitives'

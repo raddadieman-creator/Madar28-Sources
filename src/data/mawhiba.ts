@@ -101,7 +101,7 @@ export const mawhibaOpportunities: Opportunity[] = [
     title: 'معرض المدرسة للمشاريع البحثية',
     summary: 'عرض مشاريع الطالبات داخل المدرسة واختيار المميز منها للترشيح.',
     timing: 'موعد مقترح — يُحدَّد من المدرسة',
-    status: 'draft',
+    status: 'approved',
     tags: ['معرض', 'مشاريع'],
   },
 ]

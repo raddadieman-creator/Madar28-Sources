@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight } from '../ui/hand'
 import { eventCategoryStyle } from '../../data/events'
 import { gregorianMonthYear, hijriDay, hijriRangeForMonth, startOfToday, toISODate, formatHijri, formatGregorian } from '../../lib/dates'
 import { eventsOnDay } from '../../services/contentService'
